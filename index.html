@@ -1,0 +1,3188 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1ASI0784 - HCI & UX Design | Plataforma de Estudio EA1</title>
+  <style>
+    :root[data-theme="dark"] {
+      --bg-main: #07120e;
+      --bg-sidebar: #0b1c16;
+      --bg-card: #11271f;
+      --bg-card-hover: #17352a;
+      --bg-input: #091712;
+      --text-primary: #ecfdf5;
+      --text-secondary: #a7f3d0;
+      --text-muted: #6ee7b7;
+      --border-color: #1f4436;
+      --accent-primary: #10b981;
+      --accent-secondary: #34d399;
+      --accent-tertiary: #059669;
+      --accent-gold: #fbbf24;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gradient-brand: linear-gradient(135deg, #047857 0%, #10b981 55%, #34d399 100%);
+      --shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.55);
+    }
+
+    :root[data-theme="light"] {
+      --bg-main: #f0fdf4;
+      --bg-sidebar: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #ecfdf5;
+      --bg-input: #f8fafc;
+      --text-primary: #064e3b;
+      --text-secondary: #047857;
+      --text-muted: #059669;
+      --border-color: #bbf7d0;
+      --accent-primary: #059669;
+      --accent-secondary: #047857;
+      --accent-tertiary: #10b981;
+      --accent-gold: #d97706;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --gradient-brand: linear-gradient(135deg, #065f46 0%, #059669 55%, #10b981 100%);
+      --shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.65;
+      transition: background-color 0.25s, color 0.25s;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 290px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .brand-header {
+      padding: 22px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--gradient-brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: #ffffff;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+
+    .brand-title h1 {
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .brand-title span {
+      font-size: 0.76rem;
+      color: var(--accent-secondary);
+      font-weight: 600;
+    }
+
+    .nav-menu {
+      padding: 18px 14px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 11px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--bg-card-hover);
+      color: var(--text-primary);
+    }
+
+    .nav-btn.active {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.18);
+      color: inherit;
+    }
+
+    /* TIMER WIDGET */
+    .timer-box {
+      margin: 14px;
+      padding: 16px;
+      border-radius: 14px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+    }
+
+    .timer-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .timer-display {
+      font-size: 1.85rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      color: var(--accent-secondary);
+      margin: 6px 0 12px;
+    }
+
+    .timer-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .btn-sm {
+      padding: 7px 9px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border-radius: 7px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-sm:hover {
+      border-color: var(--accent-secondary);
+      color: var(--accent-secondary);
+    }
+
+    .sidebar-footer {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* MAIN CONTENT */
+    .main-wrapper {
+      margin-left: 290px;
+      flex: 1;
+      padding: 34px 44px 70px;
+      max-width: 1440px;
+    }
+
+    .section-view {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .section-view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HERO BANNER */
+    .hero-banner {
+      background: var(--gradient-brand);
+      border-radius: 18px;
+      padding: 30px 34px;
+      color: #ffffff;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-banner h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .hero-banner p {
+      font-size: 1rem;
+      opacity: 0.95;
+      max-width: 920px;
+      line-height: 1.65;
+    }
+
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 13px;
+      border-radius: 999px;
+      background: rgba(6, 78, 59, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+
+    /* CARDS & GRIDS (ESPACIADO AMPLIO PARA LECTURA) */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 26px 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--accent-secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 11px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.16);
+      color: var(--accent-secondary);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .badge-gold {
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--accent-gold);
+      border: 1px solid rgba(245, 158, 11, 0.38);
+    }
+
+    /* PILLS NAVIGATION */
+    .pills-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .pill-btn {
+      padding: 11px 18px;
+      border-radius: 11px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--accent-secondary);
+      color: var(--text-primary);
+    }
+
+    .pill-btn.active {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    /* INPUTS, TEXTAREAS & BUTTONS */
+    .input-text, .input-area {
+      padding: 11px 14px;
+      border-radius: 9px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      font-size: 0.94rem;
+      width: 100%;
+      line-height: 1.5;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .input-area {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .input-text:focus, .input-area:focus {
+      outline: none;
+      border-color: var(--accent-secondary);
+    }
+
+    .input-text.correct {
+      border-color: var(--success);
+      background-color: rgba(34, 197, 94, 0.14);
+    }
+
+    .input-text.wrong {
+      border-color: var(--danger);
+      background-color: rgba(239, 68, 68, 0.14);
+    }
+
+    .btn-primary {
+      padding: 11px 20px;
+      border-radius: 10px;
+      border: none;
+      background: var(--gradient-brand);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.93;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-outline {
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent-secondary);
+      color: var(--accent-secondary);
+    }
+
+    /* LISTS & TABLES (DESCOMPRIMIDOS) */
+    ul.clean-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    ul.clean-list li {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      padding-left: 20px;
+      position: relative;
+    }
+
+    ul.clean-list li::before {
+      content: "▸";
+      color: var(--accent-primary);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    ul.clean-list li strong {
+      color: var(--text-primary);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid var(--border-color);
+      padding: 13px 15px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background-color: var(--bg-input);
+      color: var(--accent-secondary);
+      font-weight: 800;
+    }
+
+    .data-table tr:nth-child(even) td {
+      background-color: rgba(16, 185, 129, 0.03);
+    }
+
+    /* CALLOUT BOXES */
+    .formula-box {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.14), rgba(5, 150, 105, 0.08));
+      border-left: 4px solid var(--accent-primary);
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin: 16px 0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .exam-template-box {
+      background-color: var(--bg-input);
+      border: 2px dashed var(--accent-primary);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-top: 20px;
+    }
+
+    .exam-template-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* QUESTION ITEM */
+    .q-row {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .q-row:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .q-statement {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    /* WIREFRAME MOCKS & CANVAS */
+    .wf-screen {
+      border: 2px solid var(--accent-secondary);
+      border-radius: 14px;
+      padding: 16px;
+      background-color: var(--bg-input);
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .wf-bar {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wf-box {
+      border: 1px dashed var(--text-secondary);
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    .wf-btn-dominant {
+      background-color: var(--accent-primary);
+      color: #052e16;
+      font-weight: 800;
+      text-align: center;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      margin-top: 12px;
+    }
+
+    .pin-num {
+      display: inline-flex;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      color: #000;
+      font-size: 0.74rem;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+    }
+
+    /* TRIVIA */
+    .trivia-opt {
+      width: 100%;
+      text-align: left;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      border-radius: 11px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .trivia-opt:hover:not(:disabled) {
+      border-color: var(--accent-secondary);
+      background-color: var(--bg-card-hover);
+    }
+
+    .trivia-opt.correct {
+      background-color: rgba(34, 197, 94, 0.2);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .trivia-opt.wrong {
+      background-color: rgba(239, 68, 68, 0.2);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* SIMULACRO CANVAS */
+    .canvas-container {
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      background-color: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #wf-canvas {
+      display: block;
+      width: 100%;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    /* MOBILE MENU BUTTON */
+    .mobile-toggle {
+      display: none;
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 200;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--gradient-brand);
+      color: #fff;
+      border: none;
+      font-size: 1.35rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-wrapper { margin-left: 0; padding: 22px 16px 85px; }
+      .mobile-toggle { display: flex; align-items: center; justify-content: center; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BOTÓN MENÚ MÓVIL -->
+  <button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" title="Abrir menú">☰</button>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="brand-logo">HCI</div>
+      <div class="brand-title">
+        <h1>HCI for Design</h1>
+        <span>1ASI0784 • Master EA1</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <button class="nav-btn active" onclick="switchTab('tab-evidencia', this)">
+        <span>📋</span> 1. Parte I: Evidencia Oficial
+        <span class="nav-badge">10 pts</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-temario', this)">
+        <span>📚</span> 2. Temario S1 - S6
+        <span class="nav-badge">6 Sem</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-artefactos', this)">
+        <span>🧩</span> 3. Artefactos y Plantillas
+        <span class="nav-badge">9 Guías</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-banco', this)">
+        <span>🎯</span> 4. Banco 100 Preguntas
+        <span class="nav-badge">Enter</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-trivia', this)">
+        <span>⚡</span> 5. Trivia Gamificada
+        <span class="nav-badge">Quiz</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-simulacro', this)">
+        <span>✍️</span> 6. Simulacro Interactivo EA1
+        <span class="nav-badge">20 pts</span>
+      </button>
+    </nav>
+
+    <!-- CRONÓMETRO DEL EXAMEN -->
+    <div class="timer-box">
+      <div class="timer-label">
+        <span>⏱️ Cronómetro EA1</span>
+        <span id="timer-mode-lbl">100 min</span>
+      </div>
+      <div class="timer-display" id="timer-display">100:00</div>
+      <div class="timer-controls">
+        <button class="btn-sm" onclick="startTimer()">▶ Iniciar</button>
+        <button class="btn-sm" onclick="pauseTimer()">⏸ Pausa</button>
+        <button class="btn-sm" onclick="resetTimer()">↺ Reset</button>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn-sm" style="flex:1" onclick="setTimerPreset(100, 'Examen (100m)')">100m (Total)</button>
+        <button class="btn-sm" style="flex:1" onclick="setTimerPreset(20, 'Parte I (20m)')">20m (Parte I)</button>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <span style="font-size:0.8rem; color:var(--text-secondary);">Modo visual</span>
+      <button class="btn-sm" onclick="toggleTheme()" id="theme-btn">☀️ Modo Claro</button>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-wrapper">
+
+    <!-- =========================================================
+         SECCIÓN 1: PARTE I - EVIDENCIA OFICIAL (10 PREGUNTAS)
+         ========================================================= -->
+    <section id="tab-evidencia" class="section-view active">
+      <div class="hero-banner">
+        <h2>📋 Parte I: Evidencia Oficial — Comprensión Conceptual (10 puntos)</h2>
+        <p>Entrenamiento exacto de los 10 enunciados oficiales de completamiento (20 minutos / 1 punto por pregunta). Escribe la palabra clave exacta según las diapositivas U1S1 a U2S6 y presiona <strong>Enter</strong> para validar cada respuesta individualmente.</p>
+        <div class="chips-row">
+          <span class="chip">⏱️ Duración sugerida: 20 minutos</span>
+          <span class="chip">🎯 Puntaje: 10 puntos (1 pt c/u)</span>
+          <span class="chip">⌨️ Presiona ENTER en cada casilla para calificar</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📌 Evaluación de los 10 Enunciados Oficiales</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn-primary" onclick="checkAllOfficialQuestions()">✔ Calificar las 10 preguntas</button>
+            <button class="btn-outline" onclick="resetOfficialQuestions()">↺ Reiniciar intento</button>
+          </div>
+        </div>
+        <div id="official-score-banner" style="display:none;" class="formula-box"></div>
+        <div id="official-questions-container"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">💡 Sustento Teórico de la Pregunta 6 (Taxonomía en U1S4)</div>
+          <span class="badge-tag badge-gold">Nota Técnica de Lámina</span>
+        </div>
+        <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:12px;">
+          En la presentación oficial <strong>U1S4 (Organización del contenido, lámina 25)</strong>, organizar los contenidos en grupos o categorías según sus características o temas se define formalmente bajo los 3 pilares de la Arquitectura de Información:
+        </p>
+        <ul class="clean-list">
+          <li><strong>Ontología:</strong> Identificar las piezas críticas de información y su significado.</li>
+          <li><strong>Taxonomía:</strong> Definir cómo se organiza y clasifica esa información (respuesta oficial de una palabra: <strong>Taxonomía</strong> o <strong>Clasificación</strong>).</li>
+          <li><strong>Coreografía:</strong> Decidir ubicación, relaciones, rutas, atajos y redundancias para que el flujo sea claro.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SECCIÓN 2: TEMARIO COMPLETO SEMANA POR SEMANA (S1 A S6)
+         ========================================================= -->
+    <section id="tab-temario" class="section-view">
+      <div class="hero-banner">
+        <h2>📚 Temario Maestro Guiado y Descomprimido (Semanas 1 a 6)</h2>
+        <p>Explicación amplia, clara y estructurada de los 6 a 7 subtemas primordiales de cada semana del curso <strong>1ASI0784 - HCI for Design</strong>. Todo el contenido proviene estrictamente de las presentaciones oficiales.</p>
+        <div class="chips-row">
+          <span class="chip">S1: Fundamentos HCI/UX</span>
+          <span class="chip">S2: Lean UX y Entrevistas</span>
+          <span class="chip">S3: Needfinding y Modelado</span>
+          <span class="chip">S4: IxD, Nielsen, AI e Inclusión</span>
+          <span class="chip">S5: User Flows y Wireframes</span>
+          <span class="chip">S6: UI Visual, Color, Responsive y Prototipos</span>
+        </div>
+      </div>
+
+      <div class="pills-nav" id="week-pills">
+        <button class="pill-btn active" onclick="showWeek(1, this)">Semana 1: Fundamentos HCI y UX</button>
+        <button class="pill-btn" onclick="showWeek(2, this)">Semana 2: Lean UX y User Research</button>
+        <button class="pill-btn" onclick="showWeek(3, this)">Semana 3: Needfinding y Modelos</button>
+        <button class="pill-btn" onclick="showWeek(4, this)">Semana 4: IxD, Heurísticas, AI e Inclusión</button>
+        <button class="pill-btn" onclick="showWeek(5, this)">Semana 5: User Flows y Wireframes</button>
+        <button class="pill-btn" onclick="showWeek(6, this)">Semana 6: UI, Color, Responsive y Prototipos</button>
+      </div>
+
+      <!-- SEMANA 1 -->
+      <div id="week-content-1" class="week-panel">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">1.1 Relación entre HCI, Diseño de Interacción y UX</div>
+              <span class="badge-tag">U1S1 • Láminas 9, 12 y 30</span>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr><th>Concepto</th><th>Definición Exacta del Curso</th><th>Pregunta Clave</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>IHC / HCI</strong></td>
+                  <td>Campo de estudio que analiza cómo las personas interactúan con sistemas y tecnologías interactivas.</td>
+                  <td>¿Cómo interactúan las personas con la tecnología?</td>
+                </tr>
+                <tr>
+                  <td><strong>Diseño de Interacción (DI)</strong></td>
+                  <td>Diseñar productos interactivos para apoyar la manera en que las personas se comunican e interactúan en su vida cotidiana y laboral (Sharp, Rogers y Preece, 2019). Winograd (1997): <em>"El diseño de espacios para la comunicación e interacción humana"</em>.</td>
+                  <td>¿Cómo diseñamos mejores interacciones?</td>
+                </tr>
+                <tr>
+                  <td><strong>Experiencia de Usuario (UX)</strong></td>
+                  <td>Experiencia resultante: cómo una persona percibe y vive su interacción con un producto o servicio y su reacción emocional (Hornbæk y Hertzum, 2017).</td>
+                  <td>¿Cómo percibe y experimenta el usuario esa interacción?</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="formula-box">
+              <strong>Objetivo del Diseño de Interacción (Lámina 12):</strong> Lograr que el usuario complete sus tareas de manera <strong>Efectiva</strong> (logra lo que necesita), <strong>Eficiente</strong> (con el menor esfuerzo posible) y <strong>Satisfactoria</strong> (genera confianza y agrado). <em>"No diseñamos pantallas, diseñamos interacciones que conectan personas con soluciones."</em>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">1.2 Los 6 Pilares del DI y Campos Multidisciplinarios</div>
+              <span class="badge-tag">U1S1 • Láminas 12 a 17</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Los 6 Pilares del Diseño de Interacción:</strong> (1) <strong>Usuario al centro</strong> (entender necesidades, contextos y emociones), (2) <strong>Flujos y tareas</strong> (secuencia de pasos sin fricciones), (3) <strong>Claridad y simplicidad</strong> (organizar información comprensible), (4) <strong>Retroalimentación</strong> (respuestas oportunas y visibles), (5) <strong>Puntos de contacto</strong> (consistencia en todos los canales y dispositivos), (6) <strong>Medición y mejora</strong> (evaluar con datos continuamente).</li>
+              <li><strong>Disciplinas académicas que contribuyen al DI:</strong> Psicología, Ciencias Sociales, Ciencias de la Computación, Ingeniería, Ergonomía e Informática.</li>
+              <li><strong>Prácticas de diseño:</strong> Diseño gráfico, Diseño de producto, Diseño artístico, Diseño industrial e Industria cinematográfica.</li>
+              <li><strong>Campos interdisciplinarios:</strong> IHC, Computación ubicua, Factores humanos, Ingeniería cognitiva, Ergonomía cognitiva, Trabajo cooperativo asistido por computadora (CSCW) y Sistemas de información.</li>
+              <li><strong>Trabajo en equipos multidisciplinarios:</strong> <em>Beneficio:</em> Se generan más ideas y diseños. <em>Desventaja:</em> Es difícil comunicarse y hacer avanzar los diseños que se están creando.</li>
+              <li><strong>Consultoras referentes:</strong> <strong>Nielsen Norman Group</strong> (productos centrados en el ser humano), <strong>Cooper</strong> (diseño orientado a objetivos) e <strong>IDEO</strong> (nuevas formas de proporcionar valor).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">1.3 Modelo de Hassenzahl y Características del DI</div>
+              <span class="badge-tag">U1S1 • Láminas 5, 18 a 22</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Visión de Don Norman (2004):</strong> No basta con construir productos que funcionen, sean comprensibles y usables; también debemos aportar alegría, emoción, placer, diversión y belleza a la vida de las personas.</li>
+              <li><strong>Modelo de UX de Hassenzahl (2010):</strong>
+                <br>• <strong>Dimensión Pragmática:</strong> Cuán simple, práctico y evidente es para el usuario alcanzar sus objetivos.
+                <br>• <strong>Dimensión Hedónica:</strong> Cuán evocadora y estimulante es la interacción para los usuarios (enfocada en el bienestar).</li>
+              <li><strong>Buen vs. Mal Diseño (Caso Control Remoto TiVo):</strong> Supera a los controles estándar por su forma de maní ergonómica adaptable a la mano, distribución lógica y botones distintivos codificados por colores fáciles de localizar.</li>
+              <li><strong>Las 3 Características Fundamentales del DI (Lámina 21):</strong>
+                <br>1. Los usuarios deben participar durante todo el desarrollo del proyecto.
+                <br>2. Los objetivos específicos de usabilidad y UX deben identificarse, documentarse claramente y acordarse al inicio del proyecto.
+                <br>3. Se necesita <strong>iteración</strong> a lo largo de las actividades fundamentales.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">1.4 Accesibilidad, Inclusión y Clasificación de Discapacidad</div>
+              <span class="badge-tag">U1S1 • Láminas 23 a 27</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Accesibilidad:</strong> Grado en que un producto interactivo es accesible para el mayor número posible de personas, poniendo el <strong>enfoque en las personas con discapacidad</strong> (ej. lectores de pantalla en Android OS o Apple VoiceOver).</li>
+              <li><strong>Inclusión:</strong> Crear productos y servicios que se adapten al mayor número posible de personas independientemente de su discapacidad, educación, edad o ingresos.</li>
+              <li><strong>Clasificación por tipo de deficiencia:</strong>
+                <br>• <strong>Sensorial:</strong> Pérdida de visión o audición (visión periférica, daltonismo, sin percepción de luz).
+                <br>• <strong>Física:</strong> Pérdida de funciones de partes del cuerpo (tras un ACV o lesión medular).
+                <br>• <strong>Cognitiva:</strong> Dificultades de aprendizaje o pérdida de memoria/función cognitiva.</li>
+              <li><strong>Categorización según duración o contexto:</strong>
+                <br>• <strong>Permanente:</strong> Usuario de silla de ruedas a largo plazo.
+                <br>• <strong>Temporal:</strong> Después de sufrir un accidente o enfermedad temporal.
+                <br>• <strong>Situacional:</strong> Cuando el entorno limita a la persona (ej. un ambiente muy ruidoso impide oír).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">1.5 Objetivos de Usabilidad vs. Objetivos de UX</div>
+              <span class="badge-tag">U1S1 • Láminas 28, 31 y 32</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Los 7 Objetivos de Usabilidad (Lámina 28):</strong>
+                <br>1. <strong>Eficaz de usar</strong> (permite alcanzar la meta).
+                <br>2. <strong>Eficiente de usar</strong> (rapidez y menor esfuerzo).
+                <br>3. <strong>Seguro de usar</strong> (protege de errores graves).
+                <br>4. <strong>Tener buena utilidad</strong> (brinda las funciones correctas).
+                <br>5. <strong>Fácil de aprender</strong> (rápida comprensión inicial).
+                <br>6. <strong>Fácil de recordar cómo usarlo</strong> (retención en el tiempo).
+                <br>7. <strong>Agradable de usar</strong>.</li>
+              <li><strong>Objetivos de Experiencia de Usuario (Lámina 32):</strong>
+                <br>• <em>Aspectos deseables:</em> Satisfactorio, útil, agradable, motivador, atractivo, placentero, emocionante, entretenido, mejora la sociabilidad, apoya la creatividad, cognitivamente estimulante, divertido, provocador, sorprendente, gratificante, emocionalmente satisfactorio, experimentar flujo.
+                <br>• <em>Aspectos no deseables:</em> Aburrido, frustrante, hace sentir culpable o estúpido, molesto, infantil, desagradable, condescendiente, empalagoso, efectista, inquietante, intrusivo, engañoso.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">1.6 Principios Fundamentales de Diseño (Norman / Preece)</div>
+              <span class="badge-tag">U1S1 • Láminas 33 a 47</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Visibilidad:</strong> Hacer visibles las partes relevantes y hacer evidente qué se debe hacer. <em>Casos de falla:</em> Ascensor que exige insertar la tarjeta de habitación en una ranura oculta sin avisar; grifo automático con sensor que no detecta ropa negra.</li>
+              <li><strong>Retroalimentación (Feedback):</strong> Enviar información de vuelta al usuario sobre lo que se ha hecho mediante sonido ("ccclichhk"), resaltado visual o animación.</li>
+              <li><strong>Restricciones:</strong> Restringir las posibles acciones para evitar que el usuario seleccione opciones incorrectas (ej. mapeo adyacente directo o codificación por colores en conectores de mouse y teclado).</li>
+              <li><strong>Consistencia Interna vs. Externa:</strong>
+                <br>• <strong>Consistencia Interna:</strong> Las operaciones se comportan igual dentro de una misma aplicación (ej. `Ctrl+C`, `Ctrl+S`). Se rompe cuando varios comandos inician con la misma letra.
+                <br>• <strong>Consistencia Externa:</strong> Operaciones e interfaces iguales entre distintas aplicaciones y dispositivos. <em>Caso de inconsistencia externa:</em> El teclado numérico de teléfonos (`1-2-3` arriba) frente al de calculadoras (`7-8-9` arriba).</li>
+              <li><strong>Affordances (Dar una pista):</strong> Atributo de un objeto que permite saber cómo usarlo. Norman distingue las affordances <strong>reales</strong> (objetos físicos: manija para tirar) de las affordances <strong>percibidas</strong> (interfaces virtuales: convenciones aprendidas en barras de desplazamiento o iconos).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEMANA 2 -->
+      <div id="week-content-2" class="week-panel" style="display:none;">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">2.1 Enfoque Lean UX: De los Requisitos al Aprendizaje</div>
+              <span class="badge-tag">U1S2 • Láminas 1 a 4</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>¿Por qué investigar antes de diseñar?</strong> En Lean UX (Gothelf & Seiden), las ideas iniciales no se tratan como hechos verificados: se reconocen explícitamente como <strong>supuestos</strong>.</li>
+              <li><strong>Riesgo de no investigar:</strong> Cada decisión posterior basada en un supuesto no probado aumenta el riesgo del producto. Investigar permite corregir el rumbo antes de invertir demasiado en una solución.</li>
+              <li><strong>Cambio de mentalidad:</strong> Lean UX cambia la conversación de <em>"construir lo pedido"</em> a <em>"aprender qué funciona"</em>. El objetivo no es demostrar que teníamos razón, sino aprender lo suficiente para tomar mejores decisiones.</li>
+              <li><strong>Cadena de transición Lean UX:</strong> <code>Requisitos (parecen fijar un camino) → Supuestos (admiten que podemos estar equivocados) → Hipótesis (convierten lo que creemos en algo comprobable) → Evidencia (permite validar, invalidar o ajustar el rumbo)</code>.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">2.2 Los 4 Grandes Tipos de Supuestos y Priorización</div>
+              <span class="badge-tag">U1S2 • Láminas 4, 5, 12 y 13</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Definición de Supuesto:</strong> Es nuestra mejor estimación basada en lo que sabemos hoy; contiene riesgo porque aún no contamos con evidencia suficiente que la confirme.</li>
+              <li><strong>Los 4 Grandes Tipos de Supuestos (Lámina 5):</strong>
+                <br>1. <strong>Resultados de negocio:</strong> Cambio medible que indicará progreso o éxito.
+                <br>2. <strong>Usuarios:</strong> Personas para quienes creemos estar resolviendo un problema.
+                <br>3. <strong>Resultados del usuario:</strong> Metas funcionales, emocionales o de largo plazo que buscan alcanzar.
+                <br>4. <strong>Características:</strong> Cambios o mejoras del producto que creemos ayudarán a lograr esos resultados.</li>
+              <li><strong>Proceso grupal en 4 pasos (Lámina 12):</strong> <code>1. Individual → 2. Compartir → 3. Organizar (agrupar por temas) → 4. Priorizar (identificar los más importantes o riesgosos)</code>.</li>
+              <li><strong>Manejo de desacuerdos:</strong> No se fuerza un consenso artificial; las discrepancias del equipo se registran y se convierten en preguntas de investigación valiosas.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">2.3 Herramientas del Problema y Problem Statement</div>
+              <span class="badge-tag">U1S2 • Láminas 6 a 11</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Las 4 Herramientas para analizar el problema (Lámina 6):</strong>
+                <br>• <strong>5W + 2H:</strong> Explorar el problema mediante preguntas: <em>What, Why, Where, When, Who, How, How much</em>.
+                <br>• <strong>Árbol del problema:</strong> Identificar el problema central, sus posibles causas y sus efectos.
+                <br>• <strong>Diagrama de Ishikawa:</strong> Organizar y visualizar las posibles causas que pueden estar originando un problema.
+                <br>• <strong>5 Porqués:</strong> Profundizar progresivamente desde un síntoma hasta sus posibles causas subyacentes.</li>
+              <li><strong>El Problem Statement (Planteamiento del Problema):</strong> Define el foco claro del equipo sin convertirse en una lista disfrazada de funcionalidades.
+                <br>• <em>En producto existente:</em> (1) Objetivo actual del sistema, (2) Problema que impide alcanzarlo, (3) Solicitud de mejora <strong>sin dictar la solución</strong>.
+                <br>• <strong>Regla Problema ≠ Solución:</strong> Lean UX desplaza el foco desde los <strong>outputs</strong> (lo que construimos, ej. "una app móvil") hacia los <strong>outcomes</strong> (el cambio que buscamos producir en el usuario).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">2.4 Supuesto vs. Hipótesis Lean UX</div>
+              <span class="badge-tag">U1S2 • Láminas 11, 14 y 15</span>
+            </div>
+            <div class="formula-box">
+              <strong>Estructura de un Supuesto:</strong><br>
+              <code>"Creemos que [afirmación que aún no hemos demostrado]..."</code><br><br>
+              <strong>Estructura de una Hipótesis Lean UX:</strong><br>
+              <code>"Creemos que [solución/característica] para [usuario] logrará [resultado esperado]. Sabremos que es cierto cuando observemos [evidencia/medida]."</code>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Lógica de Investigación Lean UX (Lámina 15):</strong> <code>CREEMOS (declaramos lo que podría ser cierto) → NECESITAMOS SABER (identificamos incertidumbre crítica) → BUSCAMOS EVIDENCIA (investigamos con usuarios) → APRENDEMOS (validamos, invalidamos o reformulamos)</code>.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">2.5 Métodos de Investigación y Guía de Entrevista</div>
+              <span class="badge-tag">U1S2 • Láminas 16 a 23</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Métodos que aportan evidencia (Lámina 18):</strong>
+                <br>• <strong>Entrevistas:</strong> Comprender experiencias, decisiones, motivaciones y contexto.
+                <br>• <strong>Observación contextual:</strong> Ver lo que las personas realmente hacen en su entorno habitual.
+                <br>• <strong>Analítica y registros de uso:</strong> Observar patrones de comportamiento existentes.
+                <br>• <strong>Reportes de soporte y feedback:</strong> Problemas expresados por clientes.
+                <br>• <strong>Pruebas y experimentos:</strong> Contrastar hipótesis mediante comportamiento observable.</li>
+              <li><strong>Collaborative Discovery:</strong> El descubrimiento es una actividad colaborativa de todo el equipo en campo para construir comprensión común y evitar interpretaciones de segunda mano.</li>
+              <li><strong>Los 4 Niveles de Preguntas en la Entrevista (Lámina 21):</strong>
+                <br>1. <strong>Contexto:</strong> <em>"Cuéntame sobre la última vez que..."</em>
+                <br>2. <strong>Comportamiento:</strong> <em>"¿Qué hiciste después?"</em>
+                <br>3. <strong>Motivación:</strong> <em>"¿Qué intentabas conseguir?"</em>
+                <br>4. <strong>Profundización:</strong> <em>"¿Por qué fue importante para ti?"</em></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">2.6 Errores en Entrevistas, Evidencia vs. Opinión y 8 Pasos</div>
+              <span class="badge-tag">U1S2 • Láminas 22 a 30</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Las 5 Preguntas que debemos EVITAR (Lámina 22):</strong> (1) Preguntas que sugieren la respuesta (<em>"¿Te gustaría que fuera más rápida?"</em>), (2) Hipotéticas lejanas (<em>"¿Usarías esto todos los días?"</em>), (3) Preguntas dobles (<em>"¿Es fácil y rápida?"</em>), (4) Pedir diseñar la solución al entrevistado (<em>"¿Qué botón pondrías aquí?"</em>), (5) Encuestas cerradas de Sí/No.</li>
+              <li><strong>Diferencia entre Supuesto, Evidencia y Solución (Lámina 24):</strong>
+                <br>• <em>Supuesto:</em> "Creemos que los alumnos no encuentran los avisos".
+                <br>• <em>Evidencia cualitativa:</em> "Tres participantes describieron que revisan primero WhatsApp porque no detectan nuevos avisos en el LMS".
+                <br>• <em>Posible solución:</em> "Entonces debemos crear notificaciones push" (todavía necesita evaluarse).</li>
+              <li><strong>Los 8 Pasos del Análisis de Entrevista (Lámina 30):</strong> (1) Transcripción, (2) Codificación, (3) Insights clave, (4) Necesidades, (5) Posibles soluciones, (6) Supuestos, (7) Priorización, (8) Síntesis.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEMANA 3 -->
+      <div id="week-content-3" class="week-panel" style="display:none;">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">3.1 Needfinding y Cadena de Síntesis con Trazabilidad</div>
+              <span class="badge-tag">U1S3 • Láminas 4, 5 y 10</span>
+            </div>
+            <div class="formula-box">
+              <strong>Flujo Oficial de Síntesis (Lámina 10):</strong><br>
+              <code>1. EVIDENCIA (¿Qué dijo/hizo?) → 2. PATRÓN (¿Qué se repite?) → 3. INSIGHT (¿Por qué es relevante?) → 4. USER NEED STATEMENT (¿Qué necesita y para qué?)</code>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Datos / Evidencia:</strong> Citas directas, observaciones, comportamientos y situaciones recogidas durante las entrevistas.</li>
+              <li><strong>Patrones:</strong> Recurrencias o relaciones que emergen al organizar y comparar varias evidencias en el Affinity Mapping.</li>
+              <li><strong>Insights:</strong> Comprensiones profundas obtenidas al interpretar la evidencia y preguntarnos <em>por qué</em> ocurre ese comportamiento o dificultad.</li>
+              <li><strong>Necesidades:</strong> Aquello que la persona requiere lograr para alcanzar su meta o superar una dificultad.</li>
+              <li><strong>Regla de Trazabilidad:</strong> Toda persona, necesidad, escenario o pain point debe poder justificarse con evidencia real, nunca con la imaginación del equipo.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">3.2 Affinity Mapping y User Need Statements</div>
+              <span class="badge-tag">U1S3 • Láminas 6 a 11</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Reglas de construcción del Affinity Mapping:</strong>
+                <br>• Colocar una evidencia concreta por nota adhesiva (citas, hechos o comportamientos; sin proponer soluciones prematuras).
+                <br>• Agrupar las notas por <strong>significado y similitud</strong>, nunca por el orden de las entrevistas.
+                <br>• Permitir que los grupos emerjan de los datos antes de imponer categorías y nombrar cada grupo sintetizando el patrón observado.</li>
+              <li><strong>User Need Statement (Declaración de Necesidad):</strong>
+                <br>• Fórmula: <code>[Usuario] necesita [Necesidad (objetivo/resultado)] para [Insight / Goal (lograr un objetivo significativo)]</code>.
+                <br>• <strong>Regla de oro:</strong> Expresa <em>qué</em> queremos lograr para el usuario, <strong>no cómo</strong> lo vamos a solucionar (prohibido mencionar "una app", "un botón" o tecnologías).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">3.3 Triada de Requisitos: Persona, Escenario y Objetivo</div>
+              <span class="badge-tag">U1S3 • Láminas 12 a 15</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>1. Persona:</strong> Define quién protagoniza la historia. Incluye actitudes, motivaciones, objetivos, frustraciones, contexto de uso y su relación con la tecnología. No pretende ser una ficha demográfica decorativa.</li>
+              <li><strong>2. Escenario:</strong> Define cuándo, dónde y cómo ocurre la experiencia mediante una narrativa que describe cómo actúa la persona a través de una secuencia de eventos.</li>
+              <li><strong>3. Objetivo:</strong> Define qué quiere o necesita alcanzar la persona. Es la motivación que impulsa sus acciones; cuando alcanza el objetivo, el escenario finaliza.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">3.4 Empathy Map, User Journey Map y As-Is Scenario</div>
+              <span class="badge-tag">U1S3 • Láminas 16 a 25</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Empathy Mapping:</strong> Visualización colaborativa no cronológica con 4 cuadrantes: <strong>SAYS</strong> (citas directas), <strong>THINKS</strong> (lo que piensa y le preocupa), <strong>DOES</strong> (acciones observables) y <strong>FEELS</strong> (estado emocional). Las contradicciones entre lo que dice y lo que hace revelan información valiosa.</li>
+              <li><strong>User Journey Mapping:</strong> Secuencia cronológica a través del tiempo. Contiene 5 bloques: (1) <strong>Actor</strong>, (2) <strong>Scenario + Expectations</strong>, (3) <strong>Journey Phases</strong>, (4) <strong>Actions + Mindsets + Emotions</strong> y (5) <strong>Opportunities</strong>.</li>
+              <li><strong>As-Is Scenario Map:</strong> Representa cómo vive el usuario la experiencia <strong>HOY</strong>, antes de diseñar una solución futura. Evalúa <code>Phases, Doing, Thinking, Feeling</code> e identifica: <strong>Punto alto (+), Punto bajo (-), Punto crítico (!) y Vacío de información (?)</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-header">
+              <div class="card-title">3.5 Los 5 Criterios Oficiales de Revisión de Artefactos</div>
+              <span class="badge-tag badge-gold">U1S3 • Lámina 27</span>
+            </div>
+            <div class="grid-3">
+              <div><strong>1. Trazabilidad:</strong> Todas las afirmaciones se sustentan directamente en evidencia recogida en la investigación.</div>
+              <div><strong>2. Coherencia:</strong> La User Persona, las necesidades, el escenario y el journey no se contradicen entre sí.</div>
+              <div><strong>3. Relevancia:</strong> Solo se incluye información útil para comprender el problema y orientar decisiones.</div>
+              <div><strong>4. Síntesis:</strong> El artefacto reduce la complejidad de los datos sin perder hallazgos importantes.</div>
+              <div><strong>5. No anticipación:</strong> En esta etapa se modela la experiencia actual y el problema; no se fuerza una solución.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEMANA 4 -->
+      <div id="week-content-4" class="week-panel" style="display:none;">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">4.1 Los 4 Principios del Diseño de Interacción</div>
+              <span class="badge-tag">U1S4 • Láminas 4 a 8</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>1. Autonomía:</strong> Permite al usuario tomar decisiones dentro de límites comprensibles y seguros; mantiene visible el estado del sistema con información actualizada, accesible y precisa.</li>
+              <li><strong>2. Consistencia:</strong> Mantiene patrones conocidos en controles, gestos y comportamientos; los elementos que actúan diferente deben distinguirse claramente. La consistencia más importante es la que coincide con las expectativas del usuario.</li>
+              <li><strong>3. Descubribilidad:</strong> Los controles necesarios para completar una tarea deben ser localizables. Ocultar complejidad puede aumentar la dificultad; las funciones avanzadas pueden revelarse progresivamente.</li>
+              <li><strong>4. Simplicidad:</strong> No consiste en esconder controles esenciales, sino en priorizar las acciones e información necesarias para la tarea, disminuyendo el esfuerzo sin sacrificar control.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">4.2 Las 10 Heurísticas de Usabilidad de Jakob Nielsen</div>
+              <span class="badge-tag">U1S4 • Láminas 10 a 20</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>1. Visibilidad del estado del sistema:</strong> Comunicar qué está ocurriendo mediante retroalimentación apropiada en un tiempo razonable.</li>
+              <li><strong>2. Correspondencia con el mundo real:</strong> Utilizar palabras, conceptos y convenciones familiares para las personas, siguiendo un orden natural y lógico.</li>
+              <li><strong>3. Control y libertad del usuario:</strong> Ofrecer una salida clara ante acciones iniciadas por error (cancelar, volver, deshacer o rehacer).</li>
+              <li><strong>4. Consistencia y estándares:</strong> Las mismas palabras, situaciones y acciones mantienen significados coherentes respetando convenciones de la plataforma.</li>
+              <li><strong>5. Prevención de errores:</strong> Eliminar condiciones propensas al error, usar restricciones y solicitar confirmación cuando la acción es crítica.</li>
+              <li><strong>6. Reconocer antes que recordar:</strong> Hacer visibles opciones, acciones e instrucciones para que el usuario no tenga que recordar datos de una pantalla a otra.</li>
+              <li><strong>7. Flexibilidad y eficiencia de uso:</strong> Permitir atajos o aceleradores que mejoren el desempeño de usuarios frecuentes.</li>
+              <li><strong>8. Diseño estético y minimalista:</strong> Evitar información irrelevante que compita con lo importante; minimalismo significa jerarquización.</li>
+              <li><strong>9. Reconocer y recuperarse de errores:</strong> Mensajes expresados en lenguaje claro (sin códigos técnicos) que indiquen qué ocurrió y cómo recuperarse.</li>
+              <li><strong>10. Ayuda y documentación:</strong> Fácil de buscar, centrada en la tarea y con pasos concretos y breves.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">4.3 Arquitectura de Información (AI) y Regla Responsive 80/20</div>
+              <span class="badge-tag">U1S4 • Láminas 22 a 28</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Enfoque de la AI:</strong> Organiza la información de forma clara y lógica para entender dónde está el usuario y dónde está lo que busca. Se concentra en <strong>estructura, navegación y esfuerzo cognitivo</strong>.</li>
+              <li><strong>Los 8 Principios de AI:</strong> (1) <strong>Objetos</strong> (contenido con atributos y ciclo de vida), (2) <strong>Opciones</strong> (alternativas significativas), (3) <strong>Revelación</strong> (mostrar lo suficiente para anticipar), (4) <strong>Puertas de entrada</strong> (ingresar desde páginas distintas al home), (5) <strong>Clasificación múltiple</strong> (diferentes formas de acceder), (6) <strong>Ejemplos</strong> (mostrar ejemplos de categorías), (7) <strong>Navegación enfocada</strong> (menús organizados por lo que contienen), (8) <strong>Crecimiento</strong> (estructura preparada para escalar).</li>
+              <li><strong>Los 3 Pilares de Organización del Contenido (Lámina 25):</strong>
+                <br>• <strong>Ontología:</strong> Identificar las piezas críticas de información y su significado.
+                <br>• <strong>Taxonomía:</strong> Definir cómo se organiza y clasifica esa información.
+                <br>• <strong>Coreografía:</strong> Decidir ubicación, relaciones, rutas, atajos y redundancias.</li>
+              <li><strong>Regla del 80% / 20% en Adaptación Responsive (Caso BCP, Lámina 28):</strong> Se plantea <strong>una única Arquitectura de Información</strong> para el producto digital. En la versión responsive/móvil se debe implementar como mínimo el <strong>80%</strong> de los contenidos y funcionalidades priorizados de la web; el <strong>20%</strong> restante de mayor complejidad puede adaptarse o excluirse con justificación.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">4.4 Los 7 Principios del Diseño Inclusivo y Benchmarking</div>
+              <span class="badge-tag">U1S4 • Láminas 30 a 39</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Los 7 Principios Oficiales del Diseño Inclusivo:</strong>
+                <br>1. <strong>Proporciona experiencias comparables:</strong> Ofrece alternativas que preserven la información y el propósito sin crear una experiencia inferior.
+                <br>2. <strong>Considera la situación del usuario:</strong> El contexto puede cambiar la capacidad de ver, escuchar, tocar, comprender o concentrarse.
+                <br>3. <strong>Sé consistente:</strong> Usa componentes con patrones reconocibles y mantén coherencia en lenguaje y comportamiento.
+                <br>4. <strong>Deja al usuario mandar:</strong> Evita imponer una única forma de realizar la tarea; permite controlar el ritmo y la navegación.
+                <br>5. <strong>Ofrece opciones:</strong> Proporciona maneras diversas de completar tareas sin depender de una sola modalidad de interacción.
+                <br>6. <strong>Prioriza el contenido:</strong> Destaca tareas y contenidos esenciales con jerarquía y lenguaje claro para reducir distracciones.
+                <br>7. <strong>Agrega valor:</strong> Prioriza funciones que faciliten tareas y amplíen posibilidades de participación real.</li>
+              <li><strong>Benchmarking UX/UI en 7 pasos (Lámina 39):</strong> (1) Definir qué se va a medir, (2) Decidir cómo se va a medir, (3) Recolectar la primera medición (establecer línea base), (4) Rediseñar el producto, (5) Recolectar mediciones adicionales, (6) Interpretar los resultados, (7) Calcular ROI (opcional).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEMANA 5 -->
+      <div id="week-content-5" class="week-panel" style="display:none;">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">5.1 Wireframes: Estructura, Fidelidad y Valor</div>
+              <span class="badge-tag">U2S5 • Láminas 3 a 16</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Definición de Wireframe:</strong> Guía visual básica o representación gráfica estructural de una app o sitio web que sugiere la disposición de los elementos fundamentales sin su acabado visual final.</li>
+              <li><strong>Wireframing:</strong> Proceso de diseñar un servicio web a nivel estructural (Parveen Yadav).</li>
+              <li><strong>Las 7 Características de un Wireframe (Lámina 5):</strong> (1) Representa la estructura, no su acabado visual; (2) Organiza y jerarquiza el contenido según importancia; (3) Define la distribución de navegación, textos, imágenes, botones y formularios; (4) Representa funcionalidades y rutas entre pantallas; (5) Usa elementos visuales simples sin color ni estilo innecesario; (6) Permite explorar alternativas rápido; (7) Se realiza a mano o con software (Figma, Balsamiq, Marvel, InVision, UXPin).</li>
+              <li><strong>Escala de Fidelidad (Lámina 6):</strong> Estructura básica (cajas y bloques) → Más estructura y organización → Más interactividad → Más contenido y texto real (sin <em>lorem ipsum</em>) → Más detalle en componentes → Más detalle visual.</li>
+              <li><strong>¿Qué sucede si NO utilizo wireframes?</strong> Diseñar directamente la interfaz final hace mucho más costosos los cambios porque se toman decisiones visuales antes de validar la estructura y la navegación.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">5.2 Los 4 Niveles de Diseño de Flujos (User Flow Design)</div>
+              <span class="badge-tag">U2S5 • Láminas 17 a 23</span>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr><th>Nivel</th><th>Alcance</th><th>Definición Oficial</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. User Goal</strong></td>
+                  <td>Goal or story level</td>
+                  <td>El objetivo que el usuario busca alcanzar mediante el producto antes de determinar las acciones o pantallas necesarias (ej. "Consultar mis fotos guardadas").</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Task Flow</strong></td>
+                  <td>Action level</td>
+                  <td>Representa la secuencia lineal de acciones que realiza el usuario para completar una tarea determinada (Step 1 → Step 2 → Step 3).</td>
+                </tr>
+                <tr>
+                  <td><strong>3. Wireflow</strong></td>
+                  <td>Component level</td>
+                  <td>Combina wireframes y conexiones de flujo para mostrar qué pantallas intervienen en una tarea y cómo pasa el usuario de una a otra.</td>
+                </tr>
+                <tr>
+                  <td><strong>4. User Flow</strong></td>
+                  <td>Interaction level</td>
+                  <td>Representa todos los pasos, pantallas, acciones y decisiones/ramificaciones que puede seguir un usuario para alcanzar un objetivo.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-header">
+              <div class="card-title">5.3 Simbología Geométrica Oficial para User Flows</div>
+              <span class="badge-tag badge-gold">U2S5 • Láminas 24 y 25</span>
+            </div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:18px; text-align:center; padding:12px 0;">
+              <div style="padding:16px; border:1px solid var(--border-color); border-radius:12px;">
+                <svg width="120" height="54" viewBox="0 0 120 54"><rect x="6" y="7" width="108" height="40" rx="14" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+                <div style="font-weight:800; margin-top:8px; color:var(--accent-secondary);">Rectángulo Redondeado</div>
+                <div style="font-size:0.84rem; color:var(--text-secondary);">Inicio y Final</div>
+              </div>
+              <div style="padding:16px; border:1px solid var(--border-color); border-radius:12px;">
+                <svg width="120" height="54" viewBox="0 0 120 54"><rect x="20" y="5" width="80" height="44" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+                <div style="font-weight:800; margin-top:8px; color:var(--accent-secondary);">Rectángulo / Cuadrado</div>
+                <div style="font-size:0.84rem; color:var(--text-secondary);">Mostrar Pantalla</div>
+              </div>
+              <div style="padding:16px; border:1px solid var(--border-color); border-radius:12px;">
+                <svg width="120" height="54" viewBox="0 0 120 54"><polygon points="28,7 92,7 108,47 12,47" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+                <div style="font-weight:800; margin-top:8px; color:var(--accent-secondary);">Trapecio</div>
+                <div style="font-size:0.84rem; color:var(--text-secondary);">Decisión del Usuario</div>
+              </div>
+              <div style="padding:16px; border:1px solid var(--border-color); border-radius:12px;">
+                <svg width="120" height="54" viewBox="0 0 120 54"><polygon points="60,4 105,27 60,50 15,27" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+                <div style="font-weight:800; margin-top:8px; color:var(--accent-secondary);">Rombo</div>
+                <div style="font-size:0.84rem; color:var(--text-secondary);">Decisión del Sistema (SÍ / NO)</div>
+              </div>
+              <div style="padding:16px; border:1px solid var(--border-color); border-radius:12px;">
+                <svg width="120" height="54" viewBox="0 0 120 54"><circle cx="60" cy="27" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+                <div style="font-weight:800; margin-top:8px; color:var(--accent-secondary);">Círculo</div>
+                <div style="font-size:0.84rem; color:var(--text-secondary);">Error (vuelve a pantalla previa)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEMANA 6 -->
+      <div id="week-content-6" class="week-panel" style="display:none;">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">6.1 Diferencia entre UX y UI + Elementos y Principios Visuales</div>
+              <span class="badge-tag">U2S6 • Láminas 3 a 7</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>UX (Experiencia de Usuario):</strong> Diseña la experiencia completa enfocándose en las necesidades del usuario. Define el <strong>qué y el porqué</strong> (Investigación, Arquitectura de Información, Flujos y Journeys, Usabilidad, Contenido estratégico, Métricas y validación).</li>
+              <li><strong>UI (Interfaz de Usuario):</strong> Término estrictamente digital; punto de interacción entre el usuario y el producto. Define el <strong>cómo</strong> se ve e interactúa (Diseño visual, Color, Tipografía, Componentes de interfaz, Diseño responsivo y Microinteracciones).</li>
+              <li><strong>Los 7 Elementos de Diseño Visual (Lámina 5):</strong> (1) <strong>Color</strong>, (2) <strong>Líneas</strong>, (3) <strong>Espacio</strong> (espacio negativo o en blanco), (4) <strong>Formas</strong>, (5) <strong>Tipografía</strong>, (6) <strong>Textura</strong> y (7) <strong>Alineación</strong>.</li>
+              <li><strong>Los 8 Principios de Diseño Visual (Láminas 6 y 7):</strong>
+                <br>• <strong>Unidad:</strong> Sensación de armonía e integridad entre todos los elementos.
+                <br>• <strong>Equilibrio:</strong> Distribución simétrica o asimétrica estable siguiendo una cuadrícula.
+                <br>• <strong>Jerarquía:</strong> Niveles de importancia (por orden, color y tamaño) para saber qué leer primero.
+                <br>• <strong>Dominancia:</strong> Énfasis en un solo elemento por encima de los demás para mostrar dónde actuar.
+                <br>• <strong>Escala:</strong> Tamaños relativos de los elementos para crear profundidad o dramatismo.
+                <br>• <strong>Variedad:</strong> Evita la monotonía manteniendo al usuario enfocado sin distraerlo.
+                <br>• <strong>Contraste:</strong> Elementos opuestos (color, forma, tamaño) para agregar claridad.
+                <br>• <strong>Proximidad:</strong> Elementos cercanos entre sí parecen compartir un significado o relación común (ej. etiqueta junto a su campo).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">6.2 Teoría del Color (60-30-10), Psicología y Tipografía</div>
+              <span class="badge-tag">U2S6 • Láminas 8 a 12</span>
+            </div>
+            <div class="formula-box">
+              <strong>Regla 60-30-10 en UI (Lámina 8):</strong><br>
+              • <strong>60% (Color dominante):</strong> Fondo o espacios grandes (blanco, gris o tonos claros).<br>
+              • <strong>30% (Color secundario):</strong> Estructuras, tarjetas o textos principales.<br>
+              • <strong>10% (Color de acento):</strong> Botones de acción (CTA) o elementos clave que deben resaltar.
+            </div>
+            <ul class="clean-list">
+              <li><strong>Psicología del Color (Lámina 9):</strong>
+                <br>• <strong>Rojo:</strong> Pasión, peligro, urgencia, acción, fuerza.
+                <br>• <strong>Azul:</strong> Seriedad, integridad, calma, confianza, estabilidad, inteligencia.
+                <br>• <strong>Verde:</strong> Naturaleza, crecimiento, salud, esperanza, renovación, relajación.
+                <br>• <strong>Amarillo:</strong> Calidez, amabilidad, alegría, creatividad, vitalidad.
+                <br>• <strong>Naranja:</strong> Juventud, innovación, energía, diversión.
+                <br>• <strong>Morado:</strong> Lujo, realeza, sabiduría, misterio, sofisticación.
+                <br>• <strong>Blanco / Negro:</strong> Sencillez, pureza, limpieza / Elegancia, sobriedad, poder, prestigio.</li>
+              <li><strong>Tipografía vs. Fuente (Lámina 10):</strong>
+                <br>• <strong>Tipografía:</strong> Es la familia completa con todos los tamaños y pesos disponibles (<em>"el álbum entero"</em>).
+                <br>• <strong>Fuente:</strong> Es la representación gráfica con un tamaño y peso en particular (<em>"la canción"</em>).</li>
+              <li><strong>Componentes UI reutilizables (Lámina 12):</strong> Botón, Campo de texto, Selector, Buscador, Tarjeta, Menú, Pestaña, Alerta y Modal.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">6.3 Diseño Responsive y Breakpoints Oficiales</div>
+              <span class="badge-tag">U2S6 • Láminas 13 a 15</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Breakpoints Oficiales (Lámina UPC 13):</strong>
+                <br>• <strong>Versión Desktop:</strong> <code>≥ 1024px</code>
+                <br>• <strong>Versión Tablet:</strong> <code>768px - 1023px</code>
+                <br>• <strong>Versión Móvil:</strong> <code>&lt; 768px</code> (Más del 70% de los usuarios navega desde dispositivos móviles).</li>
+              <li><strong>Conceptos Clave Responsive:</strong> Diseño fluido (se ajusta proporcionalmente al ancho), Imágenes flexibles y Navegación adaptativa.</li>
+              <li><strong>¿Qué cambia según la pantalla? (Lámina 14):</strong> (1) Adaptar el ancho evitando desplazamientos horizontales, (2) Reorganizar el contenido (columnas y bloques), (3) Priorizar y simplificar en pantallas pequeñas, (4) Adaptar la navegación. <em>"Diseñar responsive no es encoger la web ni hacer 3 productos distintos"</em>.</li>
+              <li><strong>Las 8 Consideraciones Responsive (Lámina 15):</strong> Tipografía sin necesidad de zoom, Imágenes adaptables, Distribución por ancho, Navegación simple, Interacción táctil cómoda, Contenido priorizado, Rendimiento optimizado y Pruebas en dispositivos.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">6.4 Evolución de Fidelidad y Ciclo DCU</div>
+              <span class="badge-tag">U2S6 • Láminas 16 a 21</span>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr><th>Artefacto</th><th>Propósito</th><th>Nivel de Fidelidad</th><th>Pregunta que responde</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Wireframe</strong></td><td>Define la estructura y jerarquía</td><td>Baja fidelidad</td><td>¿Cómo se organiza?</td></tr>
+                <tr><td><strong>Mockup</strong></td><td>Define la apariencia visual estática</td><td>Alta fidelidad visual</td><td>¿Cómo se verá?</td></tr>
+                <tr><td><strong>Prototipo Interactivo</strong></td><td>Simula la interacción entre pantallas</td><td>Alta fidelidad + interacción</td><td>¿Cómo funciona?</td></tr>
+              </tbody>
+            </table>
+            <ul class="clean-list" style="margin-top:14px;">
+              <li><strong>Evolución en 5 Etapas (Lámina 20):</strong> <code>1. Boceto (mano alzada) → 2. Wireframe → 3. Mockup → 4. Prototipo Interactivo (Figma) → 5. Prototipo Funcional (HTML + CSS + JavaScript)</code>.</li>
+              <li><strong>Ciclo de Diseño Centrado en las Personas (4 fases, Lámina 21):</strong>
+                <br><code>1. Comprender el contexto de uso → 2. Especificar los requisitos del usuario → 3. Diseñar soluciones → 4. Evaluar las soluciones (Iterar y mejorar)</code>. El diseño accesible se aplica <strong>durante todo el proceso</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SECCIÓN 3: LOS 9 ARTEFACTOS Y MAPAS + PLANTILLAS DE EXAMEN
+         ========================================================= -->
+    <section id="tab-artefactos" class="section-view">
+      <div class="hero-banner">
+        <h2>🧩 Los 9 Artefactos y Mapas del Curso + Plantillas para el Examen</h2>
+        <p>Revisión exhaustiva de absolutamente todos los artefactos vistos en las semanas 1 a 6. Cada apartado incluye el <strong>Ejemplo Oficial del Curso</strong> y, debajo, la <strong>Plantilla Lista para el Examen</strong> que debes dibujar o redactar a mano.</p>
+        <div class="chips-row">
+          <span class="chip">1. Empathy Map</span>
+          <span class="chip">2. User Journey Map</span>
+          <span class="chip">3. Escenario As-Is</span>
+          <span class="chip">4. Affinity Mapping</span>
+          <span class="chip">5. User Need Statement</span>
+          <span class="chip">6. User Persona</span>
+          <span class="chip">7. Arquitectura de Información</span>
+          <span class="chip">8. User Flow Geométrico</span>
+          <span class="chip">9. HU + Gherkin + Wireframe</span>
+        </div>
+      </div>
+
+      <div class="pills-nav">
+        <button class="pill-btn active" onclick="showArtifact('art-1', this)">1. Empathy Map</button>
+        <button class="pill-btn" onclick="showArtifact('art-2', this)">2. User Journey Map</button>
+        <button class="pill-btn" onclick="showArtifact('art-3', this)">3. Escenario As-Is</button>
+        <button class="pill-btn" onclick="showArtifact('art-4', this)">4. Affinity Mapping</button>
+        <button class="pill-btn" onclick="showArtifact('art-5', this)">5. User Need Statement</button>
+        <button class="pill-btn" onclick="showArtifact('art-6', this)">6. User Persona</button>
+        <button class="pill-btn" onclick="showArtifact('art-7', this)">7. Arquitectura Información (AI)</button>
+        <button class="pill-btn" onclick="showArtifact('art-8', this)">8. User Flow Geométrico</button>
+        <button class="pill-btn" onclick="showArtifact('art-9', this)">9. HU + Gherkin + Wireframe</button>
+      </div>
+
+      <!-- ARTEFACTO 1: EMPATHY MAP -->
+      <div id="art-1" class="artifact-panel">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">1. Empathy Map (Mapa de Empatía) — Ejemplo Oficial: Lena (U1S3)</div>
+            <span class="badge-tag">No es cronológico • 1 Persona al centro</span>
+          </div>
+          <div class="grid-2">
+            <div style="border:1px solid var(--border-color); border-radius:12px; padding:18px; background:var(--bg-input);">
+              <h4 style="color:var(--accent-secondary); margin-bottom:8px;">💬 SAYS (¿Qué dice?) — Citas textuales</h4>
+              <ul class="clean-list">
+                <li>"El estacionamiento en la estación es muy caro."</li>
+                <li>"A veces los taxistas toman rutas poco convenientes."</li>
+                <li>"El tren es mi mejor opción para llegar a tiempo."</li>
+                <li>"Me frustra cuando no hay información clara sobre los horarios."</li>
+              </ul>
+            </div>
+            <div style="border:1px solid var(--border-color); border-radius:12px; padding:18px; background:var(--bg-input);">
+              <h4 style="color:var(--accent-secondary); margin-bottom:8px;">💭 THINKS (¿Qué piensa?) — Creencias y preocupaciones</h4>
+              <ul class="clean-list">
+                <li>"Necesito opciones confiables para llegar a tiempo a mi trabajo."</li>
+                <li>"No quiero depender del auto todos los días por el costo y el tráfico."</li>
+                <li>"Me preocupa llegar tarde a mis reuniones."</li>
+              </ul>
+            </div>
+            <div style="border:1px solid var(--border-color); border-radius:12px; padding:18px; background:var(--bg-input);">
+              <h4 style="color:var(--accent-secondary); margin-bottom:8px;">🏃‍♀️ DOES (¿Qué hace?) — Acciones observables</h4>
+              <ul class="clean-list">
+                <li>Toma el tren todos los días para ir al trabajo.</li>
+                <li>Revisa horarios y rutas antes de salir de casa en su celular Android.</li>
+                <li>Usa billeteras digitales para pagar transporte y compras.</li>
+              </ul>
+            </div>
+            <div style="border:1px solid var(--border-color); border-radius:12px; padding:18px; background:var(--bg-input);">
+              <h4 style="color:var(--accent-secondary); margin-bottom:8px;">❤️ FEELS (¿Qué siente?) — Emociones</h4>
+              <ul class="clean-list">
+                <li><strong>Frustración</strong> cuando la información no está actualizada o es confusa.</li>
+                <li><strong>Estrés</strong> cuando pierde tiempo esperando opciones de transporte.</li>
+                <li><strong>Tranquilidad</strong> cuando encuentra una ruta rápida y confiable.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Cómo hacer el Empathy Map en tu hoja</div>
+            <ul class="clean-list">
+              <li><strong>Paso 1:</strong> Dibuja una cruz grande dividida en 4 cuadrantes y al centro coloca un círculo con el <strong>Nombre, Edad y Rol del Actor Principal del Caso</strong>.</li>
+              <li><strong>Paso 2 (SAYS):</strong> Copia entre comillas 2 o 3 frases literales del texto del caso e indica la evidencia <code>(E1)</code>, <code>(E2)</code>.</li>
+              <li><strong>Paso 3 (THINKS):</strong> Escribe en primera persona qué le preocupa o qué asume internamente según el caso (ej. <em>"Como ya salió visto, seguro ya aprobó el permiso (E2)"</em>).</li>
+              <li><strong>Paso 4 (DOES):</strong> Lista con verbos en presente las acciones que realiza hoy el usuario frente al problema.</li>
+              <li><strong>Paso 5 (FEELS):</strong> Escribe el sustantivo de la emoción + la causa (ej. <em>"Frustración por no encontrar la respuesta final en el chat (E4)"</em>). <strong>¡Prohibido proponer soluciones aquí!</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 2: USER JOURNEY MAP -->
+      <div id="art-2" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">2. User Journey Map — Ejemplo Oficial: Lena (U1S3 Lámina 22)</div>
+            <span class="badge-tag">Secuencia Cronológica • 5 Componentes</span>
+          </div>
+          <div class="formula-box">
+            <strong>1. Actor:</strong> Lena, 50 años, servidora civil en Londres.<br>
+            <strong>2. Escenario + Objetivo + Expectativas:</strong> Desplazarse de su casa a su oficina en transporte público para llegar puntualmente. Expectativas: Horarios claros, rutas confiables y alertas ante cambios.
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>3. Etapas (Phases)</th>
+                <th>1. PLANIFICAR</th>
+                <th>2. TRASLADARSE</th>
+                <th>3. CONECTAR</th>
+                <th>4. LLEGAR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Acciones (Actions)</strong></td>
+                <td>Revisa rutas y horarios; compara tiempo y costo.</td>
+                <td>Camina a la estación; toma el tren; revisa hora de llegada.</td>
+                <td>Verifica conexiones; evalúa cambiar de línea; espera.</td>
+                <td>Sale de la estación; camina a la oficina; reorganiza agenda.</td>
+              </tr>
+              <tr>
+                <td><strong>Pensamientos (Mindsets)</strong></td>
+                <td>"¿Cuál será la opción más rápida hoy?"</td>
+                <td>"Espero que el tren salga a tiempo."</td>
+                <td>"¿Hay algún retraso en la próxima conexión?"</td>
+                <td>"¿Llegaré a tiempo para mi primera reunión?"</td>
+              </tr>
+              <tr>
+                <td><strong>Emociones (Emotions)</strong></td>
+                <td>😌 Tranquila y optimista</td>
+                <td>😐 Expectativa e incertidumbre</td>
+                <td>😣 Frustración si hay retrasos</td>
+                <td>😊 Satisfacción si llega a tiempo</td>
+              </tr>
+              <tr>
+                <td><strong>5. Oportunidades</strong></td>
+                <td>Facilitar comparación de rutas, tiempo y costo antes de salir.</td>
+                <td>Mostrar información en tiempo real sobre horarios e incidencias.</td>
+                <td>Alertar proactivamente sobre interrupciones y rutas alternas.</td>
+                <td>Ofrecer soporte rápido cuando ocurra un imprevisto.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Cómo estructurar el User Journey Map</div>
+            <ul class="clean-list">
+              <li><strong>Encabezado obligatorio (Bloques 1 y 2):</strong> Escribe arriba <code>Actor: [Nombre/Rol]</code> | <code>Escenario y Objetivo: [Qué intenta lograr]</code> | <code>Expectativas: [2 expectativas del usuario]</code>.</li>
+              <li><strong>Tabla cronológica (Bloques 3, 4 y 5):</strong> Crea 4 columnas con verbos o fases en orden temporal (ej. <em>1. Antes / Planificar → 2. Durante / Ejecutar → 3. Verificar → 4. Cierre</em>) y 4 filas: <strong>Acciones</strong>, <strong>Pensamientos (entre comillas)</strong>, <strong>Emociones (curva emocional)</strong> y <strong>Oportunidades de mejora</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 3: ESCENARIO AS-IS -->
+      <div id="art-3" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">3. As-Is Scenario Map — Ejemplo Oficial: Trabajo Grupal (U1S3 Lámina 25)</div>
+            <span class="badge-tag badge-gold">Describe lo que ocurre HOY • Sin soluciones</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Fases (Hoy)</th>
+                <th>1. Se organiza</th>
+                <th>2. Se comunica</th>
+                <th>3. Trabaja en conjunto</th>
+                <th>4. Entrega el trabajo</th>
+                <th>5. Cierre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>LO HACE (Doing)</strong></td>
+                <td>Revisa instrucciones; busca fuentes; propone tareas.</td>
+                <td>Envía mensajes por WhatsApp; espera respuestas.</td>
+                <td>Comparte documentos; edita e integra aportes.</td>
+                <td>Revisa formato; convierte a PDF; sube archivo.</td>
+                <td>Verifica registro de entrega; espera feedback.</td>
+              </tr>
+              <tr>
+                <td><strong>LO PIENSA (Thinking)</strong></td>
+                <td>"¿Entendí bien las instrucciones?"</td>
+                <td>"¿Por qué no responden tan rápido?"</td>
+                <td>"¿Están integrando lo que yo propuse?"</td>
+                <td>"¿Se habrá subido bien el archivo?"</td>
+                <td>"¿Qué nota obtendremos?"</td>
+              </tr>
+              <tr>
+                <td><strong>LO SIENTE (Feeling)</strong></td>
+                <td>😕 Incertidumbre al inicio</td>
+                <td>😰 Ansiedad por la espera</td>
+                <td>😡 Frustración por descoordinación</td>
+                <td>😌 Alivio al entregar</td>
+                <td>🤔 Expectativa por evaluación</td>
+              </tr>
+              <tr>
+                <td><strong>HALLAZGOS</strong></td>
+                <td><strong>[-] Punto bajo:</strong> Información dispersa.</td>
+                <td><strong>[-] Punto bajo:</strong> Demoras en respuestas.</td>
+                <td><strong>[!] Punto crítico:</strong> Versiones duplicadas y falta de alineación.</td>
+                <td><strong>[+] Punto alto:</strong> Entrega realizada y logro grupal.</td>
+                <td><strong>[?] Vacío de información:</strong> Falta de seguimiento individual.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Cómo completar el Escenario As-Is</div>
+            <ul class="clean-list">
+              <li><strong>Regla Crítica:</strong> Escribe todo en tiempo <strong>presente</strong> describiendo cómo sufre el problema <strong>HOY</strong> (nunca pongas "entra a la nueva app").</li>
+              <li><strong>Filas obligatorias:</strong> <code>Fases (4 a 5 etapas actuales)</code>, <code>Lo Hace (Doing)</code>, <code>Lo Piensa (Thinking - con comillas y citando E1, E2)</code>, <code>Lo Siente (Feeling)</code> y <code>Hallazgos</code>.</li>
+              <li><strong>En la fila de Hallazgos clasifica explícitamente:</strong> <strong>[+] Punto alto</strong> (positivo), <strong>[-] Punto bajo</strong> (dificultad), <strong>[!] Punto crítico</strong> (el mayor dolor, de aquí saldrá tu Historia de Usuario) y <strong>[?] Vacío de información</strong> (lo que aún no sabemos y requiere investigar más).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 4: AFFINITY MAPPING -->
+      <div id="art-4" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">4. Affinity Mapping (Diagrama de Afinidad) — Ejemplo Oficial: Lena (U1S3 Lámina 8)</div>
+            <span class="badge-tag">Agrupación Semántica • De Evidencia a Necesidad</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Grupo / Categoría de Afinidad</th>
+                <th>Notas de Evidencia (Citas / Hechos)</th>
+                <th>Patrón (¿Qué se repite?)</th>
+                <th>Insight (¿Por qué ocurre/importa?)</th>
+                <th>Necesidad (Resultado requerido)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Estacionamiento y acceso a la estación</strong></td>
+                <td>• "El estacionamiento me parece caro."<br>• "Paso varios minutos buscando sitio."<br>• "Me preocupa perder el tren por no estacionar."</td>
+                <td>El estacionamiento es difícil de encontrar y costoso.</td>
+                <td>El acceso a la estación es un punto crítico que le genera estrés e incertidumbre antes de abordar.</td>
+                <td>Encontrar o gestionar su acceso a la estación de forma predecible, conveniente y accesible.</td>
+              </tr>
+              <tr>
+                <td><strong>Información y tecnología</strong></td>
+                <td>• Usa celular Android en el trayecto.<br>• Consulta horarios antes de salir.<br>• "Necesito saber cuánto tomará todo el viaje."</td>
+                <td>Usa tecnología móvil para informarse y decidir.</td>
+                <td>La información oportuna y clara le ayuda a tomar decisiones de ruta con confianza.</td>
+                <td>Tener información actualizada, clara y en tiempo real sobre el transporte y el trayecto.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Cómo resolver un Affinity Mapping</div>
+            <ul class="clean-list">
+              <li><strong>1. Agrupa por significado, no por entrevista:</strong> Reúne las evidencias <code>(E1, E2, E3...)</code> que hablen del mismo tema y ponle un <strong>Nombre de Categoría</strong>.</li>
+              <li><strong>2. Cierra siempre con la tabla de 3 columnas:</strong> <code>Patrón (qué se repite en las notas) → Insight (por qué ese problema afecta al usuario) → Necesidad (qué necesita lograr el usuario, sin nombrar botones ni apps)</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 5: USER NEED STATEMENT -->
+      <div id="art-5" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">5. User Need Statement (Declaración de Necesidad) — U1S3 Láminas 9 a 11</div>
+            <span class="badge-tag">3 Componentes • Cero Soluciones Tecnológicas</span>
+          </div>
+          <div class="formula-box">
+            <strong>Fórmula Oficial Exacta:</strong><br>
+            <code><strong>[USUARIO (Quién es)]</strong> necesita <strong>[NECESIDAD (Verbo + resultado esperado, NO solución)]</strong> para <strong>[INSIGHT / GOAL (Por qué es importante / objetivo significativo)]</strong>.</code>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Componente</th><th>Incorrecto (Penalizado en examen)</th><th>Correcto (Sobresaliente en rúbrica)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Usuario</strong></td>
+                <td>"El usuario..." (demasiado genérico)</td>
+                <td>"Lena, una profesional que se desplaza diariamente a Londres..."</td>
+              </tr>
+              <tr>
+                <td><strong>Necesidad</strong></td>
+                <td>"...necesita una aplicación móvil para reservar estacionamiento..." (dicta solución)</td>
+                <td>"...necesita anticipar y gestionar mejor su traslado hasta la estación..." (expresa resultado)</td>
+              </tr>
+              <tr>
+                <td><strong>Insight / Goal</strong></td>
+                <td>"...para usar su celular." (no expresa valor)</td>
+                <td>"...para reducir la incertidumbre y llegar puntualmente a sus compromisos laborales."</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Checklist de tu User Need Statement</div>
+            <ul class="clean-list">
+              <li>Verifica que <strong>NO</strong> aparezcan las palabras: <em>app, aplicación, sistema, botón, pantalla, plataforma, notificación push, chatbot o base de datos</em>.</li>
+              <li>Usa verbos orientados a objetivos humanos: <em>anticipar, distinguir con claridad, organizar, verificar, coordinar, reducir tiempos</em>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 6: USER PERSONA -->
+      <div id="art-6" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">6. User Persona — Ejemplo Oficial: Lena (U1S3 Lámina 15)</div>
+            <span class="badge-tag">Arquetipo Sustentado en Evidencia</span>
+          </div>
+          <div class="grid-3">
+            <div style="border:1px solid var(--border-color); border-radius:12px; padding:16px;">
+              <h4 style="color:var(--accent-secondary); margin-bottom:8px;">👤 Datos, Cita y Biografía</h4>
+              <ul class="clean-list">
+                <li><strong>Nombre y Edad:</strong> Lena, 50 años.</li>
+                <li><strong>Ocupación:</strong> Servidora civil en Londres.</li>
+                <li><strong>Cita:</strong> <em>"Valoro mucho la comodidad y el tiempo que me permite el transporte público."</em></li>
+                <li><strong>Biografía:</strong> Viaja en tren >1 hora diario saliendo antes de las 7 a.m.; conduce 15 min hasta la estación.</li>
+              </ul>
+            </div>
+            <div style="border:1px solid var(--border-color); border-radius:12px; padding:16px;">
+              <h4 style="color:var(--accent-secondary); margin-bottom:8px;">🎯 Objetivos vs. Frustraciones</h4>
+              <ul class="clean-list">
+                <li><strong>Objetivos:</strong> Llegar a tiempo a reuniones, aprovechar el tiempo de viaje, seguridad de datos.</li>
+                <li><strong>Frustraciones (Pain Points):</strong> Estacionamiento caro y lleno, taxistas con malas rutas, retrasos del tren.</li>
+              </ul>
+            </div>
+            <div style="border:1px solid var(--border-color); border-radius:12px; padding:16px;">
+              <h4 style="color:var(--accent-secondary); margin-bottom:8px;">📱 Contexto y Tecnología (Clave HCI)</h4>
+              <ul class="clean-list">
+                <li><strong>Dispositivos:</strong> 2 celulares Android y 1 laptop Apple laboral.</li>
+                <li><strong>Hábitos digitales:</strong> Usa billeteras digitales, mapas, correo y herramientas de IA.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Los 7 Bloques de una User Persona</div>
+            <p style="font-size:0.92rem; color:var(--text-secondary);">
+              Si en el examen te toca completar una ficha de <strong>User Persona</strong>, asegúrate de llenar estos 7 bloques basados únicamente en el caso:
+              <code>1. Nombre, Edad y Ocupación</code> | <code>2. Cita textual representativa ("...")</code> | <code>3. Breve biografía contextual</code> | <code>4. Objetivos y motivaciones (mínimo 3)</code> | <code>5. Frustraciones / Puntos de dolor (mínimo 3)</code> | <code>6. Contexto de uso (cuándo y dónde interactúa)</code> | <code>7. Relación con la tecnología (dispositivos y canales que usa)</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 7: ARQUITECTURA DE INFORMACIÓN -->
+      <div id="art-7" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">7. Arquitectura de Información (Mapa del Sitio Web vs. Mobile) — Caso BCP (U1S4)</div>
+            <span class="badge-tag">Ontología, Taxonomía y Coreografía • Regla 80/20</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Criterio Comparativo</th><th>Arquitectura Web (Desktop ≥ 1024px)</th><th>Arquitectura Mobile (< 768px)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Estructura</strong></td>
+                <td>Amplia, con 6 o más categorías principales y múltiples subniveles.</td>
+                <td>Simplificada, con máximo 4 a 5 secciones principales y subniveles limitados.</td>
+              </tr>
+              <tr>
+                <td><strong>Foco</strong></td>
+                <td>Exploración exhaustiva y búsqueda detallada de información.</td>
+                <td>Tareas frecuentes, rápidas y prioritarias.</td>
+              </tr>
+              <tr>
+                <td><strong>Navegación</strong></td>
+                <td>Menú superior horizontal + mega menú desplegable + footer extenso.</td>
+                <td>Navegación inferior fija (<em>Tab bar thumb-friendly</em>) + botón central de acceso rápido.</td>
+              </tr>
+              <tr>
+                <td><strong>Regla de Proyecto UPC</strong></td>
+                <td colspan="2">Se diseña <strong>una sola Arquitectura de Información</strong> para el producto. La versión responsive/móvil debe incluir al menos el <strong>80%</strong> de contenidos y funciones priorizadas de la web (el 20% complejo se justifica).</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Cómo dibujar el Mapa del Sitio (AI)</div>
+            <ul class="clean-list">
+              <li>Coloca arriba el nodo raíz <code>[ INICIO / HOME ]</code>.</li>
+              <li>Debajo, conecta en árbol de <strong>3 a 5 secciones principales</strong> usando sustantivos claros que correspondan a tu caso (ej. <em>Solicitudes, Registrar Permiso, Historial, Notificaciones</em>).</li>
+              <li>Debajo de cada sección, lista de 2 a 3 subelementos o acciones concretas que el usuario encontrará dentro.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 8: USER FLOW GEOMÉTRICO -->
+      <div id="art-8" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">8. User Flow con Simbología Geométrica Estándar — U2S5 Lámina 25</div>
+            <span class="badge-tag">5 Figuras Obligatorias</span>
+          </div>
+          <div class="formula-box">
+            <strong>Secuencia Lógica Oficial (Ejemplo Login / Registro U2S5):</strong><br>
+            <code>( Inicio: Página de Bienvenida )</code> [Rectángulo redondeado] ➔ <code>[ Página de Login o Registro ]</code> [Cuadrado: Pantalla] ➔ <code>/ El usuario selecciona Login \</code> [Trapecio: Decisión usuario] ➔ <code>[ Pantalla de Login ]</code> [Cuadrado] ➔ <code>&lt; ¿Login válido? &gt;</code> [Rombo: Decisión sistema]<br>
+            • Si es <strong>SÍ</strong> ➔ <code>( Fin: Pantalla Inicial )</code> [Rectángulo redondeado].<br>
+            • Si es <strong>NO</strong> ➔ <code>(( Error ))</code> [Círculo] ➔ Flecha de retorno hacia <code>[ Pantalla de Login ]</code>.
+          </div>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Reglas para no perder puntos en el User Flow</div>
+            <ul class="clean-list">
+              <li><strong>1. Nunca mezcles las figuras:</strong> Inicio/Fin = Rectángulo redondeado | Pantalla = Rectángulo/Cuadrado | Acción/Decisión del usuario = Trapecio | Validación del sistema = Rombo | Error = Círculo.</li>
+              <li><strong>2. Todo Rombo tiene 2 salidas rotuladas:</strong> Una flecha con <code>SÍ</code> (camino feliz) y otra flecha con <code>NO</code> que pasa por el círculo de <code>Error</code> y regresa a la pantalla anterior para que el usuario se recupere.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTEFACTO 9: HU + GHERKIN + WIREFRAME -->
+      <div id="art-9" class="artifact-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">9. Cadena de Coherencia: HU + Criterios + Gherkin + Wireframe Comentado</div>
+            <span class="badge-tag badge-gold">Partes III y IV del Examen</span>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div class="wf-screen">
+                <div class="wf-bar">
+                  <span>← Atrás <span class="pin-num">3</span></span>
+                  <span>Nueva solicitud <span class="pin-num">1</span></span>
+                </div>
+                <div class="wf-box">
+                  <strong>Actividad escolar:</strong><br>
+                  [ Seleccionar actividad ▼ ]
+                </div>
+                <div class="wf-box">
+                  <strong>Nota breve:</strong> <span class="pin-num">2</span><br>
+                  [ Escribir texto ] [ 🎤 Audio ]
+                </div>
+                <div class="wf-btn-dominant">
+                  ENVIAR SOLICITUD <span class="pin-num">5</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <table class="data-table">
+                <thead>
+                  <tr><th>Pin</th><th>Principio</th><th>Sustento en elemento visible</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><span class="pin-num">1</span></td><td><strong>Sé consistente</strong></td><td>Mantiene el mismo encabezado y etiquetas entre pantallas.</td></tr>
+                  <tr><td><span class="pin-num">2</span></td><td><strong>Ofrece opciones</strong></td><td>Permite ingresar la nota por texto o por voz (audio).</td></tr>
+                  <tr><td><span class="pin-num">3</span></td><td><strong>Control y libertad / Deja mandar</strong></td><td>Incluye botón "Atrás" visible para salir o corregir sin perder control.</td></tr>
+                  <tr><td><span class="pin-num">4</span></td><td><strong>Experiencias comparables</strong></td><td>Muestra el estado con ícono + texto ("Leído, sin respuesta"), no solo color.</td></tr>
+                  <tr><td><span class="pin-num">5</span></td><td><strong>Prioriza el contenido / Dominancia</strong></td><td>Destaca un único botón primario ("ENVIAR SOLICITUD") al final.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="exam-template-box">
+            <div class="exam-template-title">📝 PLANTILLA PARA EL EXAMEN: Cadena de Coherencia Perfecta</div>
+            <ul class="clean-list">
+              <li><strong>Regla de Oro:</strong> Si en tu Historia de Usuario y Gherkin llamaste al botón <code>"Enviar solicitud"</code> y al estado <code>"Leído, sin respuesta"</code>, en tu dibujo del Wireframe el botón y el estado deben tener <strong>exactamente el mismo texto letra por letra</strong>.</li>
+              <li><strong>Cero relleno genérico:</strong> Prohibido escribir <em>"Lorem ipsum"</em>, <em>"Botón 1"</em> o <em>"Texto"</em>. Tampoco dibujes pantallas de Login, Registro o Pagos si el caso no lo pide en su alcance.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SECCIÓN 4: BANCO DE 100 PREGUNTAS (VALIDACIÓN CON ENTER)
+         ========================================================= -->
+    <section id="tab-banco" class="section-view">
+      <div class="hero-banner">
+        <h2>🎯 Banco Maestro de 100 Preguntas Oficiales (Semanas 1 a 6)</h2>
+        <p>Escribe tu respuesta en cualquier pregunta y presiona la tecla <strong>Enter</strong> para comprobar al instante si es correcta o incorrecta. Las respuestas oficiales permanecen ocultas a menos que presiones el botón <strong>"Ver respuesta"</strong>.</p>
+        <div class="chips-row">
+          <span class="chip">⌨️ Presiona ENTER para calificar tu respuesta</span>
+          <span class="chip">🔒 Respuestas ocultas por defecto</span>
+          <span class="chip">📚 100 Reactivos de 1 palabra (U1S1 a U2S6)</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-bottom:18px;">
+          <div style="flex:1; min-width:250px;">
+            <input type="text" id="bank-search" class="input-text" placeholder="🔍 Filtrar preguntas por palabra o tema..." oninput="renderBank()" />
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <select id="bank-week-filter" class="input-text" style="width:auto;" onchange="renderBank()">
+              <option value="ALL">Todas las semanas (100)</option>
+              <option value="S1">Semana 1: Fundamentos HCI/UX (18)</option>
+              <option value="S2">Semana 2: Lean UX y Entrevistas (17)</option>
+              <option value="S3">Semana 3: Needfinding y Modelos (17)</option>
+              <option value="S4">Semana 4: IxD, Nielsen, AI e Inclusión (18)</option>
+              <option value="S5">Semana 5: User Flows y Wireframes (15)</option>
+              <option value="S6">Semana 6: UI, Color, Responsive y Prototipos (15)</option>
+            </select>
+            <button class="btn-outline" onclick="resetBankInputs()">↺ Limpiar mis respuestas</button>
+          </div>
+        </div>
+        <div id="bank-counter" style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;"></div>
+        <div id="bank-list-container"></div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SECCIÓN 5: TRIVIA GAMIFICADA
+         ========================================================= -->
+    <section id="tab-trivia" class="section-view">
+      <div class="hero-banner">
+        <h2>⚡ Trivia Interactiva de Casos y Conceptos</h2>
+        <p>Entrena tu velocidad de análisis respondiendo preguntas de opción múltiple con retroalimentación inmediata justificada en las láminas del curso.</p>
+        <div class="chips-row">
+          <span class="chip" id="trivia-score-chip">🏆 Puntaje: 0</span>
+          <span class="chip" id="trivia-streak-chip">🔥 Racha: 0</span>
+          <span class="chip" id="trivia-progress-chip">📋 Pregunta: 1 / 14</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="trivia-category-lbl">Categoría: Semana 1</div>
+          <button class="btn-outline" onclick="restartTrivia()">🔀 Barajar nueva partida</button>
+        </div>
+        <div id="trivia-question-box" style="font-size:1.15rem; font-weight:700; margin:16px 0 20px; line-height:1.6;"></div>
+        <div id="trivia-options-box"></div>
+        <div id="trivia-feedback-box" class="formula-box" style="display:none; margin-top:16px;"></div>
+        <div style="display:flex; justify-content:flex-end; margin-top:18px;">
+          <button class="btn-primary" id="trivia-next-btn" onclick="nextTriviaQuestion()" style="display:none;">Siguiente pregunta ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SECCIÓN 6: SIMULACRO INTERACTIVO EA1 + PIZARRA + AUTO-EVALUADOR
+         ========================================================= -->
+    <section id="tab-simulacro" class="section-view">
+      <div class="hero-banner">
+        <h2>✍️ Simulacro Interactivo EA1 con Pizarra de Wireframe y Calificador por Rúbrica</h2>
+        <p>Elige uno de los 3 casos de estudio, resuelve el examen escribiendo tus respuestas y dibujando tu wireframe en la pizarra interactiva, y presiona <strong>"Calificar Examen Según Rúbrica Oficial"</strong> al final para recibir tu nota sobre 20 puntos y el diagnóstico exacto de tus aciertos y errores.</p>
+        <div class="chips-row">
+          <span class="chip">Parte I: 10 pts (Comprensión Conceptual)</span>
+          <span class="chip">Parte II: 10 pts (Mapa + HU/Gherkin + Wireframe + Sustento)</span>
+          <span class="chip">Diagnóstico Automático de Errores y Coherencia</span>
+        </div>
+      </div>
+
+      <!-- SELECTOR DE CASO -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">1. Selecciona el Caso de Estudio para Resolver</div>
+          <span class="badge-tag">3 Casos Oficiales Disponibles</span>
+        </div>
+        <div class="pills-nav" style="margin-bottom:14px;">
+          <button class="pill-btn active" onclick="loadSimCase(0, this)">Caso 1: "¿Lo leyó o ya respondió?" (Permisos Escolares)</button>
+          <button class="pill-btn" onclick="loadSimCase(1, this)">Caso 2: "HelpDesk Smart AI" (Soporte Técnico TI)</button>
+          <button class="pill-btn" onclick="loadSimCase(2, this)">Caso 3: "Traslado Diario de Lena a Londres"</button>
+        </div>
+        <div id="sim-case-description" class="formula-box" style="margin-bottom:0;"></div>
+      </div>
+
+      <!-- BLOQUE 1 DEL SIMULACRO: PARTE I (10 PUNTOS) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Parte I. Comprensión Conceptual (10 puntos — 1 pt c/u)</div>
+          <span class="badge-tag">Completa con 1 palabra exacta (Presiona Enter para validar)</span>
+        </div>
+        <div id="sim-part1-container"></div>
+      </div>
+
+      <!-- BLOQUE 2 DEL SIMULACRO: ARTEFACTO AS-IS / NEEDFINDING -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Parte II (Sección A). Análisis del Problema: Escenario As-Is y User Need Statement (4 puntos)</div>
+          <span class="badge-tag">Rúbrica: User Research, Needfinding y Comprensión del Problema</span>
+        </div>
+        <p style="font-size:0.92rem; color:var(--text-secondary); margin-bottom:14px;">
+          Completa la experiencia actual del usuario (<strong>HOY</strong>, sin proponer soluciones futuras y citando evidencias como <code>E1, E2...</code>) y redacta el <strong>User Need Statement</strong>:
+        </p>
+
+        <div class="grid-2">
+          <div>
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">1. Fases actuales del usuario (mínimo 3 o 4 etapas separadas por comas o flechas):</label>
+            <input type="text" id="sim-asis-phases" class="input-text" placeholder="Ej: 1. Recibe solicitud -> 2. Informa a la madre -> 3. Espera respuesta -> 4. Interpreta estado" style="margin-bottom:14px;" />
+
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">2. ¿Qué HACE (Doing) y qué PIENSA (Thinking - entre comillas) el usuario hoy?</label>
+            <textarea id="sim-asis-doing" class="input-area" placeholder="Describe qué hace hoy y cita algún pensamiento entre comillas referenciando (E1), (E2)... Recuerda NO poner soluciones tecnológicas aquí."></textarea>
+          </div>
+          <div>
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">3. ¿Qué SIENTE (Feeling) y cuál es el PUNTO CRÍTICO (!) y el VACÍO (?) del caso?</label>
+            <textarea id="sim-asis-critical" class="input-area" placeholder="Ej: Siente frustración e incertidumbre. Punto crítico (!): Confunde el visto/leído con aprobado (E2). Vacío (?): Cuánto tarda en decidir..." style="margin-bottom:14px;"></textarea>
+
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">4. User Need Statement (Fórmula: [Usuario] necesita [necesidad sin solución] para [objetivo]):</label>
+            <input type="text" id="sim-need-statement" class="input-text" placeholder="Ej: La persona cuidadora necesita distinguir con claridad si el permiso tiene respuesta explícita para evitar asumir que leído es aprobado." />
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 3 DEL SIMULACRO: HISTORIA DE USUARIO + CRITERIOS + GHERKIN -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Parte II (Sección B). Historia de Usuario, Criterios de Aceptación y Escenarios Gherkin (2 puntos)</div>
+          <span class="badge-tag">Rúbrica: Diseño de la Solución y Comunicación Técnica</span>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">1. Historia de Usuario (Formato: Como [actor concreto], quiero [qué], para [beneficio]):</label>
+            <textarea id="sim-hu-text" class="input-area" placeholder="Como [segmento del caso], quiero [acción principal sin mencionar botones], para [beneficio o problema que se evita]." style="margin-bottom:14px;"></textarea>
+
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">2. Criterios de Aceptación (Escribe mínimo 3 condiciones verificables):</label>
+            <textarea id="sim-ca-text" class="input-area" placeholder="1) El sistema permite registrar la solicitud con datos mínimos.&#10;2) El sistema distingue el estado 'Leído, sin respuesta' de 'Aprobado'.&#10;3) Al presionar 'Enviar solicitud' muestra confirmación."></textarea>
+          </div>
+          <div>
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">3. Escenario Gherkin 1 (Camino Feliz — Usa Dado / Cuando / Entonces):</label>
+            <textarea id="sim-gherkin-1" class="input-area" placeholder="Dado que...&#10;Cuando...&#10;Entonces...&#10;Y..." style="margin-bottom:14px;"></textarea>
+
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:6px;">4. Escenario Gherkin 2 (Caso Crítico o Excepción — Usa Dado / Cuando / Entonces):</label>
+            <textarea id="sim-gherkin-2" class="input-area" placeholder="Dado que...&#10;Cuando...&#10;Entonces...&#10;Y..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 4 DEL SIMULACRO: PIZARRA DE WIREFRAME + SUSTENTO DE PRINCIPIOS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Parte II (Sección C). Pizarra de Wireframe a Mano + Sustento de Principios (4 puntos)</div>
+          <span class="badge-tag">Rúbrica: Diseño de la Solución y Justificación con Principios HCI/UX</span>
+        </div>
+
+        <div class="grid-2">
+          <!-- PIZARRA INTERACTIVA CANVAS -->
+          <div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+              <button class="btn-sm" onclick="setCanvasTool('pen')">✏️ Lápiz libre</button>
+              <button class="btn-sm" onclick="stampPhoneFrames()">📱 Plantilla 2 Pantallas</button>
+              <button class="btn-sm" onclick="stampElement('box')">▭ Caja / Campo</button>
+              <button class="btn-sm" onclick="stampElement('btn')">⬛ Botón Dominante</button>
+              <button class="btn-sm" onclick="stampElement('arrow')">➔ Flecha Flujo</button>
+              <button class="btn-sm" onclick="stampPin(1)">①</button>
+              <button class="btn-sm" onclick="stampPin(2)">②</button>
+              <button class="btn-sm" onclick="stampPin(3)">③</button>
+              <button class="btn-sm" onclick="stampPin(4)">④</button>
+              <button class="btn-sm" onclick="stampPin(5)">⑤</button>
+              <button class="btn-sm" onclick="clearWireframeCanvas()" style="color:var(--danger);">🗑️ Borrar lienzo</button>
+            </div>
+            <div style="display:flex; gap:8px; margin-bottom:10px;">
+              <input type="text" id="canvas-label-inp" class="input-text" placeholder="Escribe etiqueta real (ej: Enviar solicitud, Leído sin respuesta) y pulsa Insertar texto" style="padding:7px 10px; font-size:0.84rem;" />
+              <button class="btn-sm" onclick="stampCustomText()" style="white-space:nowrap;">🔤 Insertar texto</button>
+            </div>
+            <div class="canvas-container">
+              <canvas id="wf-canvas" width="620" height="390"></canvas>
+            </div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;">
+              💡 Puedes dibujar libremente con el mouse o pantalla táctil, y usar los botones superiores para insertar marcos de pantalla, botones, etiquetas reales y los pines numerados ① a ⑤.
+            </p>
+          </div>
+
+          <!-- LEYENDA DE PRINCIPIOS APLICADOS -->
+          <div>
+            <label style="font-weight:700; font-size:0.9rem; display:block; margin-bottom:8px;">
+              Sustenta mínimo 4 a 5 Principios de Diseño (Inclusivo, Visual o Heurísticas) indicando el elemento visible de tu Wireframe y cómo mejora la interacción:
+            </label>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; gap:8px; align-items:center;">
+                <span class="pin-num">1</span>
+                <input type="text" id="sim-prin-1" class="input-text" placeholder="Ej: Sé consistente -> Mismas etiquetas y barra superior en Pantalla A y B para evitar reaprendizaje." />
+              </div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <span class="pin-num">2</span>
+                <input type="text" id="sim-prin-2" class="input-text" placeholder="Ej: Ofrece opciones -> Campo de nota permite escribir texto o grabar audio según la situación." />
+              </div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <span class="pin-num">3</span>
+                <input type="text" id="sim-prin-3" class="input-text" placeholder="Ej: Visibilidad del estado / Deja mandar -> Bloque de confirmación 'Solicitud enviada' y botón Atrás." />
+              </div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <span class="pin-num">4</span>
+                <input type="text" id="sim-prin-4" class="input-text" placeholder="Ej: Experiencias comparables -> Estado muestra ícono + texto 'Leído, sin respuesta', no solo color." />
+              </div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <span class="pin-num">5</span>
+                <input type="text" id="sim-prin-5" class="input-text" placeholder="Ej: Prioriza el contenido / Dominancia -> Un único botón principal 'Enviar solicitud' abajo." />
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:20px;">
+              <button class="btn-primary" onclick="evaluateFullSimulacro()">📊 Calificar Examen Según Rúbrica Oficial (20 pts)</button>
+              <button class="btn-outline" onclick="fillIdealSimulacro()">✨ Autocompletar Solución Modelo para comparar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORTE DE CALIFICACIÓN AUTOMÁTICA SEGÚN RÚBRICA OFICIAL -->
+      <div id="sim-evaluation-report" class="card" style="display:none; border:2px solid var(--accent-primary);">
+        <div class="card-header">
+          <div class="card-title">📈 Reporte Oficial de Calificación y Diagnóstico de Errores (Rúbrica EA1)</div>
+          <span class="badge-tag badge-gold" id="sim-final-grade-badge" style="font-size:1.05rem;">0.00 / 20 pts</span>
+        </div>
+        <div id="sim-rubric-breakdown"></div>
+        <div id="sim-errors-feedback" style="margin-top:18px;"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* =========================================================
+       DATOS 1: PARTE I - EVIDENCIA OFICIAL (10 PREGUNTAS)
+       ========================================================= */
+    const OFFICIAL_10 = [
+      {
+        num: 1,
+        textBefore: "El proceso de diseño que coloca las necesidades, características y contexto de los usuarios en el centro de las decisiones se denomina Diseño Centrado en el",
+        textAfter: ".",
+        answers: ["usuario", "ser humano", "personas"],
+        officialDisplay: "Usuario",
+        ref: "U1S1 • Láminas 4, 12 y 18"
+      },
+      {
+        num: 2,
+        textBefore: "La disciplina que estudia las percepciones, emociones y respuestas de una persona al interactuar con un producto se denomina User",
+        textAfter: ".",
+        answers: ["experience", "ux", "experience (ux)"],
+        officialDisplay: "Experience (UX)",
+        ref: "U1S1 • Láminas 19 y 30"
+      },
+      {
+        num: 3,
+        textBefore: "La disciplina enfocada principalmente en los elementos visuales e interactivos con los que una persona utiliza un producto digital se denomina User",
+        textAfter: ".",
+        answers: ["interface", "ui", "interface (ui)"],
+        officialDisplay: "Interface (UI)",
+        ref: "U2S6 • Láminas 3 y 4"
+      },
+      {
+        num: 4,
+        textBefore: "En UX Research, la técnica que consiste en observar a los usuarios mientras realizan actividades en su entorno habitual se denomina",
+        textAfter: "contextual.",
+        answers: ["observacion", "observación", "indagacion", "indagación"],
+        officialDisplay: "Observación",
+        ref: "U1S2 • Lámina 18"
+      },
+      {
+        num: 5,
+        textBefore: "En Needfinding, la técnica que permite conversar directamente con los usuarios para conocer sus necesidades, problemas y experiencias se denomina",
+        textAfter: ".",
+        answers: ["entrevista", "entrevistas"],
+        officialDisplay: "Entrevista / Entrevistas",
+        ref: "U1S2 • Láminas 16, 18 y 30"
+      },
+      {
+        num: 6,
+        textBefore: "En Arquitectura de Información, organizar los contenidos en grupos según sus características o temas se denomina",
+        textAfter: ".",
+        answers: ["taxonomia", "taxonomía", "clasificacion", "clasificación", "card sorting"],
+        officialDisplay: "Taxonomía (o Clasificación)",
+        ref: "U1S4 • Lámina 25"
+      },
+      {
+        num: 7,
+        textBefore: "La representación de la estructura y jerarquía de las páginas o secciones de un producto digital se denomina",
+        textAfter: "del sitio.",
+        answers: ["mapa", "arquitectura", "sitemap"],
+        officialDisplay: "Mapa",
+        ref: "U1S4 • Láminas 27 y 28"
+      },
+      {
+        num: 8,
+        textBefore: "La heurística que indica que el sistema debe mantener informado al usuario sobre lo que está ocurriendo se denomina Visibilidad del",
+        textAfter: "del sistema.",
+        answers: ["estado"],
+        officialDisplay: "Estado",
+        ref: "U1S1 Lámina 29 / U1S4 Lámina 11"
+      },
+      {
+        num: 9,
+        textBefore: "La heurística que establece que una interfaz debe seguir convenciones y mantener elementos similares de forma uniforme se denomina Consistencia y",
+        textAfter: ".",
+        answers: ["estandares", "estándares"],
+        officialDisplay: "Estándares",
+        ref: "U1S1 Lámina 29 / U1S4 Lámina 14"
+      },
+      {
+        num: 10,
+        textBefore: "En Diseño Centrado en el Usuario, comprender quiénes son los usuarios, qué necesitan y en qué condiciones utilizarán el producto corresponde al análisis del",
+        textAfter: "de uso.",
+        answers: ["contexto"],
+        officialDisplay: "Contexto",
+        ref: "U2S6 • Lámina 21"
+      }
+    ];
+
+    /* =========================================================
+       DATOS 2: BANCO DE 100 PREGUNTAS EXACTAS (SEMANAS 1 A 6)
+       ========================================================= */
+    const BANK_100 = [
+      // SEMANA 1 (1 - 18)
+      { id: 1, week: "S1", q: "El proceso de diseño que coloca las necesidades, características y contexto de los usuarios en el centro de las decisiones se denomina Diseño Centrado en el ________.", a: "Usuario", alts: ["usuario", "ser humano", "personas"] },
+      { id: 2, week: "S1", q: "La disciplina que estudia las percepciones, emociones y respuestas de una persona al interactuar con un producto se denomina User ________.", a: "Experience", alts: ["experience", "ux"] },
+      { id: 3, week: "S1", q: "El campo de estudio que analiza cómo las personas interactúan con sistemas y tecnologías interactivas se conoce por sus siglas en inglés como ________.", a: "HCI", alts: ["hci", "ihc"] },
+      { id: 4, week: "S1", q: "Según Sharp, Rogers y Preece (2019), diseñar productos interactivos para apoyar la manera en que las personas se comunican e interactúan en su vida cotidiana y laboral es el Diseño de ________.", a: "Interacción", alts: ["interaccion"] },
+      { id: 5, week: "S1", q: "Según Winograd (1997), el diseño de interacción se define como el diseño de espacios para la ________ e interacción humana.", a: "Comunicación", alts: ["comunicacion"] },
+      { id: 6, week: "S1", q: "En el diseño de interacción, lograr que el usuario complete lo que necesita alcanzar corresponde al criterio de una experiencia ________.", a: "Efectiva", alts: ["efectiva", "eficaz"] },
+      { id: 7, week: "S1", q: "En el diseño de interacción, lograr que el usuario alcance su objetivo con el menor esfuerzo posible corresponde a una experiencia ________.", a: "Eficiente", alts: ["eficiente"] },
+      { id: 8, week: "S1", q: "En el modelo de experiencia de usuario de Hassenzahl (2010), cuán simple, práctico y evidente es para el usuario alcanzar sus objetivos corresponde a la dimensión ________.", a: "Pragmática", alts: ["pragmatica"] },
+      { id: 9, week: "S1", q: "En el modelo de Hassenzahl (2010), cuán evocadora y estimulante es la interacción para los usuarios corresponde a la dimensión ________.", a: "Hedónica", alts: ["hedonica"] },
+      { id: 10, week: "S1", q: "El grado en que un producto interactivo es utilizable por el mayor número posible de personas, con enfoque en personas con discapacidad, se denomina ________.", a: "Accesibilidad", alts: ["accesibilidad"] },
+      { id: 11, week: "S1", q: "Crear productos y servicios que se adapten al mayor número posible de personas independientemente de su edad, educación, ingresos o discapacidad se denomina ________.", a: "Inclusión", alts: ["inclusion"] },
+      { id: 12, week: "S1", q: "Las discapacidades relacionadas con la pérdida de la visión o la audición se clasifican como deficiencias de tipo ________.", a: "Sensorial", alts: ["sensorial", "sensoriales"] },
+      { id: 13, week: "S1", q: "Cuando un entorno ruidoso impide que una persona pueda oír temporalmente en ese lugar, se trata de una deficiencia de tipo ________.", a: "Situacional", alts: ["situacional"] },
+      { id: 14, week: "S1", q: "El principio de diseño que consiste en enviar información de vuelta al usuario (sonido, resaltado, animación) sobre lo que se ha hecho se denomina ________.", a: "Retroalimentación", alts: ["retroalimentacion", "feedback"] },
+      { id: 15, week: "S1", q: "El principio de diseño que consiste en limitar las posibles acciones que pueden realizarse para evitar que el usuario seleccione opciones incorrectas se denomina ________.", a: "Restricciones", alts: ["restricciones", "restriccion"] },
+      { id: 16, week: "S1", q: "Diseñar operaciones para que se comporten de la misma manera dentro de una misma aplicación se denomina consistencia ________.", a: "Interna", alts: ["interna"] },
+      { id: 17, week: "S1", q: "La diferencia en la distribución de los números entre el teclado de un teléfono y el de una calculadora es un caso clásico de inconsistencia ________.", a: "Externa", alts: ["externa"] },
+      { id: 18, week: "S1", q: "El atributo de un objeto que da una pista y permite a las personas saber cómo usarlo (como un botón que invita a presionarlo) se denomina ________.", a: "Affordance", alts: ["affordance", "affordances"] },
+
+      // SEMANA 2 (19 - 35)
+      { id: 19, week: "S2", q: "En Lean UX, las ideas iniciales no se tratan como hechos verificados, sino que se reconocen explícitamente como ________.", a: "Supuestos", alts: ["supuestos", "supuesto"] },
+      { id: 20, week: "S2", q: "Lean UX cambia la conversación del equipo: pasa de 'construir lo pedido' a 'aprender qué ________'.", a: "Funciona", alts: ["funciona"] },
+      { id: 21, week: "S2", q: "En Lean UX, una declaración que convierte lo que creemos en una relación comprobable para validarla con experimentos se denomina ________.", a: "Hipótesis", alts: ["hipotesis"] },
+      { id: 22, week: "S2", q: "Los cuatro grandes tipos de supuestos en Lean UX son: Resultados de negocio, Usuarios, Resultados del usuario y ________.", a: "Características", alts: ["caracteristicas", "features"] },
+      { id: 23, week: "S2", q: "La herramienta de análisis de problemas que explora mediante las preguntas What, Why, Where, When, Who, How y How much se denomina ________.", a: "5W+2H", alts: ["5w+2h", "5w2h"] },
+      { id: 24, week: "S2", q: "La herramienta que permite profundizar progresivamente desde un síntoma visible hasta sus causas subyacentes preguntando reiteradamente la causa se denomina los 5 ________.", a: "Porqués", alts: ["porques", "por ques"] },
+      { id: 25, week: "S2", q: "La herramienta gráfica utilizada para organizar y visualizar las posibles causas que pueden estar originando un problema se denomina Diagrama de ________.", a: "Ishikawa", alts: ["ishikawa"] },
+      { id: 26, week: "S2", q: "Un buen Problem Statement proporciona foco al equipo y describe el problema y el resultado buscado sin dictar la ________.", a: "Solución", alts: ["solucion"] },
+      { id: 27, week: "S2", q: "Lean UX desplaza el foco desde los outputs (lo que construimos) hacia los ________ (el cambio medible que buscamos producir).", a: "Outcomes", alts: ["outcomes", "resultados"] },
+      { id: 28, week: "S2", q: "En la fórmula de hipótesis Lean UX: 'Creemos que [solución] para [usuario] logrará [resultado]. Sabremos que es cierto cuando observemos ________'.", a: "Evidencia", alts: ["evidencia", "medida"] },
+      { id: 29, week: "S2", q: "El proceso de 4 pasos para trabajar del Problem Statement a los supuestos en equipo es: Individual, Compartir, Organizar y ________.", a: "Priorizar", alts: ["priorizar"] },
+      { id: 30, week: "S2", q: "En UX Research, la técnica que consiste en observar a los usuarios mientras realizan actividades en su entorno habitual se denomina ________ contextual.", a: "Observación", alts: ["observacion", "indagacion"] },
+      { id: 31, week: "S2", q: "En Lean UX, el descubrimiento realizado por todo el equipo en campo para construir comprensión común se denomina Collaborative ________.", a: "Discovery", alts: ["discovery", "descubrimiento"] },
+      { id: 32, week: "S2", q: "En la construcción de preguntas para una entrevista, 'Cuéntame sobre la última vez que...' corresponde a una pregunta de ________.", a: "Contexto", alts: ["contexto"] },
+      { id: 33, week: "S2", q: "En una guía de entrevista, la pregunta '¿Qué intentabas conseguir?' busca explorar la ________ del usuario.", a: "Motivación", alts: ["motivacion"] },
+      { id: 34, week: "S2", q: "Durante el análisis de investigación, debemos separar estrictamente los hechos observados (evidencia) de la ________ del equipo.", a: "Opinión", alts: ["opinion", "interpretacion"] },
+      { id: 35, week: "S2", q: "Los grupos específicos de personas que comparten características, necesidades o comportamientos similares frente a un problema se denominan ________ objetivo.", a: "Segmentos", alts: ["segmentos", "segmento"] },
+
+      // SEMANA 3 (36 - 52)
+      { id: 36, week: "S3", q: "El proceso que convierte los datos de investigación en comprensión accionable sobre las personas y sus necesidades se denomina ________.", a: "Needfinding", alts: ["needfinding"] },
+      { id: 37, week: "S3", q: "En Needfinding, la propiedad por la cual toda persona, necesidad, escenario o pain point debe poder justificarse con evidencia real se denomina ________.", a: "Trazabilidad", alts: ["trazabilidad"] },
+      { id: 38, week: "S3", q: "En el paso de entrevistas a modelos, las recurrencias o relaciones que aparecen al comparar varias evidencias se denominan ________.", a: "Patrones", alts: ["patrones", "patron"] },
+      { id: 39, week: "S3", q: "En Needfinding, las interpretaciones relevantes que explican el porqué de un comportamiento o experiencia del usuario se denominan ________.", a: "Insights", alts: ["insights", "insight"] },
+      { id: 40, week: "S3", q: "La técnica que consiste en organizar observaciones o citas en grupos de similitud para descubrir temas y patrones emergentes se denomina ________ Mapping.", a: "Affinity", alts: ["affinity", "afinidad"] },
+      { id: 41, week: "S3", q: "En el Affinity Mapping, las notas de evidencia deben agruparse por su significado y nunca por el orden de las ________.", a: "Entrevistas", alts: ["entrevistas"] },
+      { id: 42, week: "S3", q: "Una declaración accionable con la fórmula '[Usuario] necesita [necesidad] para [objetivo significativo]' se denomina User ________ Statement.", a: "Need", alts: ["need"] },
+      { id: 43, week: "S3", q: "En un User Need Statement, la necesidad debe expresar un objetivo o resultado esperado y nunca una funcionalidad, tecnología o ________.", a: "Solución", alts: ["solucion"] },
+      { id: 44, week: "S3", q: "Los modelos arquetípicos basados en investigación que representan usuarios relevantes con nombre, metas, citas, comportamientos y frustraciones se denominan User ________.", a: "Personas", alts: ["personas", "persona"] },
+      { id: 45, week: "S3", q: "La narrativa que define cuándo, dónde y cómo actúa una Persona a través de una secuencia de eventos para alcanzar un objetivo se denomina ________.", a: "Escenario", alts: ["escenario"] },
+      { id: 46, week: "S3", q: "La visualización colaborativa dividida en los cuatro cuadrantes Says, Thinks, Does y Feels se denomina ________ Map.", a: "Empathy", alts: ["empathy", "empatia"] },
+      { id: 47, week: "S3", q: "En el Empathy Map, el cuadrante que registra las citas directas expresadas verbalmente por el usuario durante la entrevista se denomina ________.", a: "Says", alts: ["says", "dice"] },
+      { id: 48, week: "S3", q: "En el Empathy Map, el cuadrante que describe las acciones y comportamientos observables del usuario se denomina ________.", a: "Does", alts: ["does", "hace"] },
+      { id: 49, week: "S3", q: "La visualización que organiza la experiencia de una Persona como una secuencia de etapas a lo largo del tiempo junto con sus pensamientos y emociones es el User ________ Map.", a: "Journey", alts: ["journey"] },
+      { id: 50, week: "S3", q: "Los 5 componentes de un User Journey Map son: Actor, Scenario + Expectations, Journey Phases, Actions/Mindsets/Emotions y ________.", a: "Opportunities", alts: ["opportunities", "oportunidades"] },
+      { id: 51, week: "S3", q: "El mapa que representa cómo vive actualmente un usuario una actividad HOY, antes de diseñar una solución futura, se denomina Escenario ________.", a: "As-Is", alts: ["as-is", "asis"] },
+      { id: 52, week: "S3", q: "Los 5 criterios de revisión de artefactos en U1S3 son: Trazabilidad, Coherencia, Relevancia, Síntesis y No ________.", a: "Anticipación", alts: ["anticipacion"] },
+
+      // SEMANA 4 (53 - 70)
+      { id: 53, week: "S4", q: "Los cuatro principios del Diseño de Interacción en U1S4 son: Autonomía, Consistencia, Descubribilidad y ________.", a: "Simplicidad", alts: ["simplicidad"] },
+      { id: 54, week: "S4", q: "El principio de interacción que indica que los controles necesarios para completar una tarea deben ser fácilmente localizables se denomina ________.", a: "Descubribilidad", alts: ["descubribilidad"] },
+      { id: 55, week: "S4", q: "El principio de interacción que permite al usuario tomar decisiones dentro de límites seguros manteniendo visible el estado del sistema se denomina ________.", a: "Autonomía", alts: ["autonomia"] },
+      { id: 56, week: "S4", q: "Las reglas prácticas de Jakob Nielsen que permiten revisar una interfaz e identificar problemas sin esperar a una prueba completa con usuarios se denominan ________ de usabilidad.", a: "Heurísticas", alts: ["heuristicas"] },
+      { id: 57, week: "S4", q: "La heurística #1 de Nielsen que indica que el sistema debe mantener informado al usuario sobre lo que está ocurriendo se denomina Visibilidad del ________ del sistema.", a: "Estado", alts: ["estado"] },
+      { id: 58, week: "S4", q: "La heurística #2 de Nielsen que exige utilizar palabras, conceptos y convenciones familiares para las personas es Correspondencia con el mundo ________.", a: "Real", alts: ["real"] },
+      { id: 59, week: "S4", q: "La heurística #3 de Nielsen que facilita cancelar, volver o deshacer cuando el usuario comete una acción por error es Control y ________ del usuario.", a: "Libertad", alts: ["libertad"] },
+      { id: 60, week: "S4", q: "La heurística #4 de Nielsen que establece que una interfaz debe seguir convenciones y mantener elementos uniformes se denomina Consistencia y ________.", a: "Estándares", alts: ["estandares"] },
+      { id: 61, week: "S4", q: "La heurística #5 de Nielsen que busca eliminar condiciones propensas a fallos o pedir confirmación antes de una acción crítica es ________ de errores.", a: "Prevención", alts: ["prevencion"] },
+      { id: 62, week: "S4", q: "La heurística #6 de Nielsen que indica hacer visibles las opciones para que el usuario no tenga que memorizar datos entre pantallas es ________ antes que recordar.", a: "Reconocer", alts: ["reconocer"] },
+      { id: 63, week: "S4", q: "La heurística #7 de Nielsen que permite a usuarios expertos usar atajos o aceleradores es ________ y eficiencia de uso.", a: "Flexibilidad", alts: ["flexibilidad"] },
+      { id: 64, week: "S4", q: "La heurística #8 de Nielsen que evita información irrelevante porque compite con lo importante se denomina Diseño estético y ________.", a: "Minimalista", alts: ["minimalista"] },
+      { id: 65, week: "S4", q: "En Arquitectura de Información, identificar las piezas críticas de información y su significado corresponde a la ________.", a: "Ontología", alts: ["ontologia"] },
+      { id: 66, week: "S4", q: "En Arquitectura de Información, definir cómo se organiza y clasifica la información en categorías o grupos corresponde a la ________.", a: "Taxonomía", alts: ["taxonomia", "clasificacion"] },
+      { id: 67, week: "S4", q: "En Arquitectura de Información, decidir la ubicación, relaciones, rutas, atajos y redundancias del flujo corresponde a la ________.", a: "Coreografía", alts: ["coreografia"] },
+      { id: 68, week: "S4", q: "La representación jerárquica de las páginas y secciones de un producto digital se denomina ________ del sitio.", a: "Mapa", alts: ["mapa", "arquitectura"] },
+      { id: 69, week: "S4", q: "Según la regla de adaptación responsive del curso, la versión móvil debe implementar como mínimo el ________ por ciento de los contenidos priorizados de la web.", a: "80", alts: ["80", "80%", "ochenta"] },
+      { id: 70, week: "S4", q: "El análisis comparativo de productos digitales existentes para identificar patrones, buenas prácticas y oportunidades de mejora se denomina ________ UX/UI.", a: "Benchmarking", alts: ["benchmarking"] },
+
+      // SEMANA 5 (71 - 85)
+      { id: 71, week: "S5", q: "La guía visual básica de baja fidelidad que representa la estructura y disposición de elementos de una interfaz sin su acabado visual se denomina ________.", a: "Wireframe", alts: ["wireframe"] },
+      { id: 72, week: "S5", q: "Según Parveen Yadav, el proceso de diseñar un servicio web a nivel estructural se denomina ________.", a: "Wireframing", alts: ["wireframing"] },
+      { id: 73, week: "S5", q: "Diseñar directamente la interfaz final sin validar primero la estructura con wireframes hace que los cambios posteriores sean mucho más ________.", a: "Costosos", alts: ["costosos", "caros", "dificiles"] },
+      { id: 74, week: "S5", q: "En los wireframes de alta fidelidad, el texto genérico (lorem ipsum) se reemplaza por contenido y etiquetas ________.", a: "Reales", alts: ["reales", "real", "especifico"] },
+      { id: 75, week: "S5", q: "Una serie de pasos que realiza una persona a través de una interfaz para alcanzar un objetivo significativo se denomina ________ de usuario.", a: "Flujo", alts: ["flujo", "flow"] },
+      { id: 76, week: "S5", q: "En los 4 niveles de diseño de flujos, el objetivo que el usuario busca alcanzar a nivel de historia ('Goal or story level') se denomina User ________.", a: "Goal", alts: ["goal"] },
+      { id: 77, week: "S5", q: "En los 4 niveles de diseño de flujos, la secuencia lineal de acciones para completar una tarea ('Action level') se denomina ________ Flow.", a: "Task", alts: ["task"] },
+      { id: 78, week: "S5", q: "El artefacto a nivel de componente ('Component level') que combina wireframes con flechas de conexión entre pantallas se denomina ________.", a: "Wireflow", alts: ["wireflow"] },
+      { id: 79, week: "S5", q: "El nivel de flujo de interacción ('Interaction level') que incluye pasos, pantallas, acciones y ramificaciones o decisiones del sistema se denomina ________ Flow.", a: "User", alts: ["user"] },
+      { id: 80, week: "S5", q: "En la simbología geométrica de un User Flow, el Inicio y el Final del recorrido se representan mediante un rectángulo con bordes ________.", a: "Redondeados", alts: ["redondeados"] },
+      { id: 81, week: "S5", q: "En la simbología geométrica de un User Flow, la acción de mostrar una pantalla se representa mediante un ________.", a: "Rectángulo", alts: ["rectangulo", "cuadrado"] },
+      { id: 82, week: "S5", q: "En la simbología geométrica de un User Flow, una decisión o acción tomada por el usuario se representa mediante un ________.", a: "Trapecio", alts: ["trapecio"] },
+      { id: 83, week: "S5", q: "En la simbología geométrica de un User Flow, una decisión o validación del sistema (con salidas SÍ / NO) se representa mediante un ________.", a: "Rombo", alts: ["rombo", "diamante"] },
+      { id: 84, week: "S5", q: "En la simbología geométrica de un User Flow, un estado o mensaje de error se representa mediante un ________.", a: "Círculo", alts: ["circulo"] },
+      { id: 85, week: "S5", q: "Las versiones web y móvil de un User Flow no representan productos distintos, sino adaptaciones ________ de un mismo producto.", a: "Responsive", alts: ["responsive", "responsivas"] },
+
+      // SEMANA 6 (86 - 100)
+      { id: 86, week: "S6", q: "La disciplina estrictamente digital enfocada en los elementos visuales e interactivos de una pantalla se denomina User ________ (UI).", a: "Interface", alts: ["interface", "ui"] },
+      { id: 87, week: "S6", q: "Mientras que el diseño UX define el qué y el porqué de la experiencia, el diseño UI define el ________.", a: "Cómo", alts: ["como"] },
+      { id: 88, week: "S6", q: "En los elementos de diseño visual, el área vacía alrededor de un elemento también se conoce como espacio en blanco o espacio ________.", a: "Negativo", alts: ["negativo"] },
+      { id: 89, week: "S6", q: "El principio de diseño visual que muestra los diferentes niveles de importancia mediante tamaño, color y orden para indicar qué leer primero es la ________.", a: "Jerarquía", alts: ["jerarquia"] },
+      { id: 90, week: "S6", q: "El principio de diseño visual que le da énfasis a un solo elemento principal por encima de todos los demás se denomina ________.", a: "Dominancia", alts: ["dominancia"] },
+      { id: 91, week: "S6", q: "El principio de diseño visual según el cual los elementos ubicados muy juntos parecen compartir un significado o relación común se denomina ________.", a: "Proximidad", alts: ["proximidad"] },
+      { id: 92, week: "S6", q: "En la regla 60-30-10 de teoría del color en UI, el 60% corresponde al color ________ utilizado en fondos o espacios grandes.", a: "Dominante", alts: ["dominante", "primario"] },
+      { id: 93, week: "S6", q: "En la regla 60-30-10 de teoría del color en UI, el 10% corresponde al color de ________ utilizado en botones de acción (CTA).", a: "Acento", alts: ["acento"] },
+      { id: 94, week: "S6", q: "En psicología del color, el color que transmite seriedad, confianza, calma, estabilidad e inteligencia es el ________.", a: "Azul", alts: ["azul"] },
+      { id: 95, week: "S6", q: "En UI, la familia completa de caracteres es la tipografía ('el álbum'), mientras que un tamaño y peso específico es la ________ ('la canción').", a: "Fuente", alts: ["fuente"] },
+      { id: 96, week: "S6", q: "Según los breakpoints de diseño responsive del curso, las pantallas menores a 768px (< 768px) corresponden a la versión ________.", a: "Móvil", alts: ["movil", "mobile", "celular"] },
+      { id: 97, week: "S6", q: "La representación visual estática de alta fidelidad que muestra cómo se verá el producto (con colores, fuentes e imágenes), pero aún sin interacción, es el ________.", a: "Mockup", alts: ["mockup"] },
+      { id: 98, week: "S6", q: "El artefacto que conecta pantallas y comportamientos en Figma para simular la interacción y responder '¿cómo funciona?' se denomina ________.", a: "Prototipo", alts: ["prototipo"] },
+      { id: 99, week: "S6", q: "En la evolución de las 5 etapas del diseño, la etapa final implementada con código HTML, CSS y JavaScript se denomina prototipo ________.", a: "Funcional", alts: ["funcional"] },
+      { id: 100, week: "S6", q: "En Diseño Centrado en el Usuario, comprender quiénes son los usuarios, qué necesitan y en qué condiciones utilizarán el producto corresponde al análisis del ________ de uso.", a: "Contexto", alts: ["contexto"] }
+    ];
+
+    /* =========================================================
+       DATOS 3: CASOS DE ESTUDIO DEL SIMULACRO INTERACTIVO
+       ========================================================= */
+    const SIM_CASES = [
+      {
+        title: "Caso 1: '¿Lo leyó o ya respondió?' (Gestión de Permisos Escolares)",
+        desc: "<strong>Contexto y Evidencias:</strong> Una persona cuidadora apoya en la rutina de un niño escolar y recibe avisos de permisos del colegio <strong>(E1)</strong>. Al reenviar el mensaje por chat a la madre del menor, aparece el doble check de 'Visto/Leído', por lo que la cuidadora asume erróneamente que la madre ya aprobó el permiso y actúa sin una decisión explícita <strong>(E2)</strong>. La madre suele estar en reuniones de trabajo y abre el mensaje rápido sin poder responder en ese momento <strong>(E3)</strong>. Días después, ninguna encuentra dónde quedó registrada la respuesta final entre tantos mensajes sueltos del chat <strong>(E4)</strong>. <em>Alcance: Solo registrar la solicitud de permiso y distinguir lectura de respuesta explícita. Sin login, cuentas ni pagos.</em>",
+        ideal: {
+          phases: "1. Recibe la solicitud -> 2. Informa a la madre -> 3. Espera respuesta -> 4. Interpreta el visto -> 5. Busca el permiso",
+          doing: "La cuidadora recibe el aviso escolar (E1) y lo envía por chat a la madre. Piensa: \"Como ya salió leído y no me dijo que no, seguro ya aprobó el permiso\" (E2). Luego busca en el chat dónde quedó el mensaje (E4).",
+          critical: "Siente incertidumbre, confusión y frustración. Punto bajo (-): La madre no puede responder durante reuniones en el trabajo (E3). Punto crítico (!): 'Leído' se confunde con 'Aprobado' (E2) y no existe un registro único de la respuesta (E4). Vacío (?): Cuánto tiempo tarda la madre en decidir luego de leer.",
+          need: "La persona cuidadora de un escolar necesita distinguir con claridad si una solicitud de permiso solo fue leída o si ya tiene una respuesta explícita para evitar tomar decisiones equivocadas basadas en suposiciones.",
+          hu: "Como persona cuidadora de un escolar, quiero registrar una solicitud de permiso escolar y ver con claridad si está pendiente o si tiene respuesta explícita, para evitar confundir leído con aprobado.",
+          ca: "1) El sistema permite registrar la solicitud ingresando datos mínimos (Actividad, Fecha y Nota breve) sin exigir descripción extensa.\n2) El sistema distingue explícitamente el estado 'Leído, sin respuesta' del estado 'Aprobado' o 'Rechazado'.\n3) Al presionar 'Enviar solicitud', el sistema muestra una pantalla de confirmación con el resumen y el estado actual.",
+          g1: "Dado que la persona cuidadora se encuentra en la pantalla 'Nueva solicitud'\nCuando selecciona la Actividad, ingresa la Fecha y presiona 'Enviar solicitud'\nEntonces el sistema muestra la pantalla 'Solicitud enviada' con el resumen del permiso\nY muestra el estado inicial 'Pendiente'.",
+          g2: "Dado que la madre abrió la solicitud de permiso pero aún no ha respondido\nCuando la persona cuidadora consulta el detalle de la solicitud\nEntonces el sistema muestra claramente el estado 'Leído, sin respuesta'\nY no muestra la solicitud como 'Aprobada'.",
+          p1: "Sé consistente -> Mantiene el mismo encabezado, estructura y etiquetas claras ('Nueva solicitud', 'Estado') en ambas pantallas.",
+          p2: "Ofrece opciones -> Permite ingresar la Nota breve escribiendo texto o grabando un audio corto.",
+          p3: "Deja al usuario mandar / Visibilidad del estado -> Botón 'Atrás' visible y mensaje de confirmación 'Solicitud enviada' tras enviar.",
+          p4: "Experiencias comparables -> El estado 'Leído, sin respuesta' usa ícono + etiqueta de texto explícita, no solo color.",
+          p5: "Prioriza el contenido / Dominancia -> Un único botón primario dominante ('Enviar solicitud') al final de la pantalla."
+        }
+      },
+      {
+        title: "Caso 2: 'HelpDesk Smart AI' (Atención de Incidencias de Soporte TI)",
+        desc: "<strong>Contexto y Evidencias:</strong> En las empresas, los trabajadores internos dependen de TI para resolver bloqueos de cuentas, olvido de contraseñas, fallas de correo o lentitud de equipos <strong>(E1)</strong>. Las solicitudes llegan desordenadas por WhatsApp, correo o llamadas, causando pérdida de información y demoras <strong>(E2)</strong>. Muchos problemas son repetitivos, pero el personal técnico pierde tiempo en consultas básicas en lugar de casos críticos <strong>(E3)</strong>. Los Jefes de TI no logran supervisar en tiempo real qué tickets están pendientes y cuáles resueltos <strong>(E4)</strong>.",
+        ideal: {
+          phases: "1. Detecta falla técnica -> 2. Busca canal de contacto -> 3. Envía consulta -> 4. Espera atención -> 5. Hace seguimiento",
+          doing: "El trabajador escribe por WhatsApp o correo al área de TI cuando su cuenta se bloquea (E1, E2). Piensa: \"Nadie me responde y necesito entrar a mi correo urgente para trabajar\" (E2).",
+          critical: "Siente frustración y estrés por la demora. Punto bajo (-): Múltiples canales desordenados (E2). Punto crítico (!): Problemas simples y repetitivos saturan a los técnicos y demoran la atención (E3), sin visibilidad de tickets pendientes (E4). Vacío (?): Porcentaje de incidencias que el usuario puede resolver solo.",
+          need: "El usuario interno de la empresa necesita recibir orientación paso a paso inmediata o registrar un ticket ordenado para resolver sus fallas técnicas frecuentes sin depender de esperas manuales.",
+          hu: "Como usuario interno de una empresa, quiero comunicarme con el asistente de soporte para resolver problemas técnicos frecuentes paso a paso o generar un ticket, para retomar mis labores sin esperar atención humana.",
+          ca: "1) El sistema muestra opciones rápidas de problemas frecuentes (Olvidé mi contraseña, No puedo ingresar al correo, Problemas de internet).\n2) Al elegir un problema frecuente, el sistema muestra pasos numerados para resolverlo y los botones 'Problema resuelto' o 'Crear ticket'.\n3) Si el problema no se resuelve, el sistema registra el ticket y muestra la tarjeta 'Ticket Registrado' con su código y estado.",
+          g1: "Dado que el usuario interno ingresa al asistente de soporte técnico\nCuando selecciona la opción rápida 'No puedo ingresar al correo'\nEntonces el sistema muestra 3 pasos numerados para recuperar el acceso\nY muestra el botón 'Problema resuelto'.",
+          g2: "Dado que el usuario siguió los pasos pero el problema persiste\nCuando presiona la opción 'Crear ticket'\nEntonces el sistema genera un ticket de soporte y muestra la tarjeta 'Ticket Registrado' con código y prioridad\nY habilita el botón 'Ver estado de ticket'.",
+          p1: "Sé consistente / Repetición -> Los botones de 'Opciones rápidas' mantienen el mismo tamaño, icono y estilo en toda la pantalla.",
+          p2: "Ofrece opciones -> El usuario puede seleccionar un botón de opción rápida o escribir libremente su consulta.",
+          p3: "Proximidad -> Los 3 pasos de solución aparecen agrupados y numerados secuencialmente dentro del mismo bloque.",
+          p4: "Visibilidad del estado / Contraste -> La tarjeta 'Ticket Registrado' destaca con borde y cabecera contrastante mostrando el código #TKT.",
+          p5: "Prioriza el contenido -> En la confirmación se destaca el botón primario 'Ver estado de ticket' sobre la acción secundaria."
+        }
+      },
+      {
+        title: "Caso 3: 'Traslado Matutino de Lena hacia Londres' (Movilidad Multimodal)",
+        desc: "<strong>Contexto y Evidencias:</strong> Lena (50 años, funcionaria pública) viaja a diario a Londres combinando auto (15 min hasta la estación) y tren (>1 hora) saliendo antes de las 7:00 a.m. <strong>(E1)</strong>. Al llegar a la estación, el estacionamiento suele estar lleno y es muy caro, haciéndole perder varios minutos buscando sitio con miedo a perder el tren <strong>(E2)</strong>. No existe un autobús directo desde su casa hasta la estación <strong>(E3)</strong>. Cuando ocurren retrasos o cambios en las conexiones del tren, la información es confusa y teme llegar tarde a sus reuniones <strong>(E4)</strong>.",
+        ideal: {
+          phases: "1. Revisa horarios en casa -> 2. Conduce a la estación -> 3. Busca estacionamiento -> 4. Aborda el tren -> 5. Llega a la oficina",
+          doing: "Lena sale antes de las 7 a.m. y conduce 15 minutos hasta la estación (E1), donde da vueltas buscando sitio libre (E2). Piensa: \"Me preocupa perder el tren por no encontrar estacionamiento a tiempo\" (E2).",
+          critical: "Siente ansiedad y estrés en la estación. Punto bajo (-): No hay bus directo desde su casa (E3). Punto crítico (!): El estacionamiento de la estación es costoso y suele estar lleno sin saberlo antes de salir (E2), sumado a retrasos confusos (E4). Vacío (?): Con cuánta anticipación se llenan los espacios de la estación.",
+          need: "Lena necesita anticipar la disponibilidad del estacionamiento y el estado de salida de su tren antes de salir de casa para reducir la incertidumbre y llegar puntualmente a sus reuniones.",
+          hu: "Como viajera diaria que combina auto y tren, quiero consultar en tiempo real los espacios disponibles en el estacionamiento de la estación y la puntualidad del próximo tren, para decidir con seguridad mi traslado antes de salir de casa.",
+          ca: "1) El sistema muestra en una sola vista la cantidad de espacios libres en el estacionamiento de la estación y el estado del próximo tren.\n2) El sistema distingue claramente el estado 'Tren a tiempo' del estado 'Con retraso'.\n3) Al presionar 'Confirmar trayecto', el sistema muestra el resumen del tiempo total estimado de viaje.",
+          g1: "Dado que Lena consulta su ruta matutina antes de salir de casa\nCuando selecciona su estación de origen\nEntonces el sistema muestra la cantidad de espacios disponibles en el estacionamiento y el estado 'Tren a tiempo'\nY permite presionar 'Confirmar trayecto'.",
+          g2: "Dado que el estacionamiento de la estación no cuenta con espacios libres\nCuando Lena consulta el estado del traslado\nEntonces el sistema muestra la alerta 'Estacionamiento lleno'\nY sugiere opciones alternativas de traslado hacia la estación.",
+          p1: "Sé consistente -> Mantiene las mismas etiquetas de estado ('Tren a tiempo', 'Estacionamiento lleno') en las pantallas.",
+          p2: "Prioriza el contenido -> Muestra arriba los dos datos críticos para Lena: cupos de estacionamiento y salida del tren.",
+          p3: "Experiencias comparables -> Los estados del tren y estacionamiento combinan íconos claros con texto explícito.",
+          p4: "Visibilidad del estado -> Muestra la hora de última actualización en tiempo real y confirmación al elegir trayecto.",
+          p5: "Deja al usuario mandar -> Permite cambiar de estación o volver atrás con un botón claro en la cabecera."
+        }
+      }
+    ];
+
+    /* =========================================================
+       DATOS 4: TRIVIA GAMIFICADA
+       ========================================================= */
+    const TRIVIA_POOL = [
+      {
+        cat: "Semana 1 • Modelo de UX",
+        q: "¿Cómo se llaman las dos dimensiones del modelo de Experiencia de Usuario de Hassenzahl (2010)?",
+        opts: [
+          "Interna y Externa",
+          "Pragmática (simple, práctica) y Hedónica (evocadora, estimulante)",
+          "Física y Percibida",
+          "Estructural y Visual"
+        ],
+        ans: 1,
+        exp: "Hassenzahl (2010) divide la UX en Pragmática (cuán práctico y evidente es lograr objetivos) y Hedónica (cuán estimulante y evocadora es la interacción)."
+      },
+      {
+        cat: "Semana 1 • Principios de Diseño",
+        q: "En el caso del ascensor donde los botones no responden porque el usuario no ve que debe insertar la tarjeta de su habitación en una ranura oculta, ¿qué principio falla?",
+        opts: ["Consistencia externa", "Visibilidad", "Flexibilidad", "Escala"],
+        ans: 1,
+        exp: "En U1S1 (láminas 34-35) se presenta como ejemplo clásico de falta de Visibilidad: no es evidente qué acción se debe realizar."
+      },
+      {
+        cat: "Semana 1 • Discapacidad y Contexto",
+        q: "Un usuario intenta escuchar un mensaje en un entorno sumamente ruidoso que le impide oír. ¿Cómo se categoriza esta limitación según U1S1?",
+        opts: ["Permanente", "Cognitiva", "Situacional", "Física crónica"],
+        ans: 2,
+        exp: "En U1S1 (lámina 25), las limitaciones según su duración/contexto se dividen en Permanentes, Temporales y Situacionales (causadas por el entorno)."
+      },
+      {
+        cat: "Semana 2 • Lean UX",
+        q: "¿Cuál es la estructura completa de una Hipótesis Lean UX según U1S2 (lámina 11)?",
+        opts: [
+          "Como usuario quiero una app para mejorar mis tiempos.",
+          "Creemos que [solución] para [usuario] logrará [resultado]. Sabremos que es cierto cuando observemos [evidencia/medida].",
+          "Debemos implementar un chatbot en el tercer trimestre.",
+          "El usuario necesita información clara para llegar temprano."
+        ],
+        ans: 1,
+        exp: "La hipótesis Lean UX vincula Solución + Usuario + Resultado esperado + Señal medible ('Sabremos que es cierto cuando observemos...')."
+      },
+      {
+        cat: "Semana 2 • Guía de Entrevista",
+        q: "¿Cuál de las siguientes preguntas es ADECUADA para una entrevista semiestructurada de User Research?",
+        opts: [
+          "¿Te gustaría que la plataforma fuera más rápida y fácil?",
+          "¿Usarías este botón todos los días del próximo año?",
+          "Cuéntame sobre la última vez que tuviste un problema al subir una tarea al aula virtual.",
+          "¿Qué menú pondrías en la parte superior de la pantalla?"
+        ],
+        ans: 2,
+        exp: "En U1S2 (láminas 21-22) se indica partir del contexto real pasado ('Cuéntame sobre la última vez que...') y evitar preguntas hipotéticas, dobles o pedir diseñar la solución."
+      },
+      {
+        cat: "Semana 3 • Needfinding",
+        q: "¿Cuál de los siguientes User Need Statements cumple estrictamente las reglas de U1S3?",
+        opts: [
+          "Lena necesita una aplicación con GPS para reservar estacionamiento.",
+          "Lena necesita notificaciones push en Android para ver el tren.",
+          "Lena necesita anticipar su acceso a la estación para reducir la incertidumbre y evitar retrasos.",
+          "Lena necesita un botón de pago rápido con billetera digital."
+        ],
+        ans: 2,
+        exp: "Un User Need Statement expresa un resultado u objetivo ('anticipar su acceso a la estación'), nunca una solución ni componente tecnológico."
+      },
+      {
+        cat: "Semana 3 • Criterios de Artefactos",
+        q: "¿Cómo se llama el criterio de revisión de artefactos (U1S3 lámina 27) que exige que cada afirmación, pain point o necesidad pueda justificarse con evidencia de la investigación?",
+        opts: ["Trazabilidad", "Simplicidad", "Descubribilidad", "Escala"],
+        ans: 0,
+        exp: "Los 5 criterios de revisión de artefactos en U1S3 son: Trazabilidad, Coherencia, Relevancia, Síntesis y No anticipación."
+      },
+      {
+        cat: "Semana 4 • Heurísticas de Nielsen",
+        q: "Permitir que el usuario cancele una operación o regrese fácilmente con un botón 'Atrás' cuando entra por accidente corresponde a la heurística:",
+        opts: [
+          "1. Visibilidad del estado del sistema",
+          "3. Control y libertad del usuario",
+          "8. Diseño estético y minimalista",
+          "10. Ayuda y documentación"
+        ],
+        ans: 1,
+        exp: "La heurística 3 (Control y libertad del usuario) ofrece una salida clara (cancelar, volver, deshacer) ante acciones iniciadas por error."
+      },
+      {
+        cat: "Semana 4 • Arquitectura de Información",
+        q: "En la organización del contenido en Arquitectura de Información (U1S4 lámina 25), ¿qué elemento define cómo se organiza y clasifica la información?",
+        opts: ["Ontología", "Taxonomía", "Coreografía", "Benchmarking"],
+        ans: 1,
+        exp: "Ontología = piezas críticas y significado; Taxonomía = cómo se organiza y clasifica; Coreografía = ubicación, rutas y relaciones."
+      },
+      {
+        cat: "Semana 4 • Adaptación Responsive",
+        q: "Según la consideración de proyecto en U1S4 (lámina 28), ¿qué porcentaje mínimo de los contenidos y funcionalidades priorizados de la solución web debe implementarse en la versión responsive?",
+        opts: ["50%", "80%", "25%", "10%"],
+        ans: 1,
+        exp: "Se debe implementar en la versión responsive como mínimo el 80% de los contenidos y funcionalidades priorizados de la web; el 20% restante se justifica."
+      },
+      {
+        cat: "Semana 5 • Simbología User Flow",
+        q: "En la simbología geométrica de un User Flow (U2S5 lámina 24), ¿qué figura representa una Decisión del Usuario y cuál una Decisión del Sistema?",
+        opts: [
+          "Trapecio = Decisión usuario | Rombo = Decisión sistema",
+          "Rombo = Decisión usuario | Trapecio = Decisión sistema",
+          "Círculo = Decisión usuario | Cuadrado = Decisión sistema",
+          "Cuadrado = Decisión usuario | Círculo = Decisión sistema"
+        ],
+        ans: 0,
+        exp: "Trapecio = Decisión del usuario; Rombo = Decisión del sistema; Rectángulo = Mostrar pantalla; Círculo = Error; Rectángulo redondeado = Inicio y Final."
+      },
+      {
+        cat: "Semana 6 • Regla 60-30-10",
+        q: "En la regla 60-30-10 de teoría del color en UI, ¿a qué porcentaje corresponden los botones de acción (CTA) o elementos clave que deben resaltar?",
+        opts: ["60% (Dominante)", "30% (Secundario)", "10% (Color de acento)", "100% (Fondo)"],
+        ans: 2,
+        exp: "60% = Color dominante (fondos); 30% = Color secundario (estructuras/tarjetas); 10% = Color de acento (botones CTA)."
+      },
+      {
+        cat: "Semana 6 • Breakpoints",
+        q: "¿Cuál es el rango de píxeles para la versión Tablet según la infografía oficial de Diseño Responsive de la UPC (U2S6 lámina 13)?",
+        opts: ["≥ 1024px", "768px - 1023px", "< 768px", "320px - 480px"],
+        ans: 1,
+        exp: "Versión Desktop: ≥ 1024px | Versión Tablet: 768px - 1023px | Versión Móvil: < 768px."
+      },
+      {
+        cat: "Semana 6 • Evolución del Diseño",
+        q: "¿Cuál es el orden correcto de las 5 etapas de evolución del diseño según su fidelidad y desarrollo (U2S6 lámina 20)?",
+        opts: [
+          "Mockup -> Boceto -> Wireframe -> Prototipo Funcional -> Prototipo Interactivo",
+          "Boceto -> Wireframe -> Mockup -> Prototipo Interactivo -> Prototipo Funcional",
+          "Wireframe -> Boceto -> Prototipo -> Mockup -> HTML",
+          "Boceto -> Mockup -> Wireframe -> Figma -> JavaScript"
+        ],
+        ans: 1,
+        exp: "El orden oficial es: 1. Boceto -> 2. Wireframe -> 3. Mockup -> 4. Prototipo Interactivo (Figma) -> 5. Prototipo Funcional (HTML+CSS+JS)."
+      }
+    ];
+
+    /* =========================================================
+       UTILIDADES GENERALES Y NAVEGACIÓN
+       ========================================================= */
+    function normalizeStr(str) {
+      return (str || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    }
+
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      document.querySelector('.sidebar').classList.remove('open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showWeek(weekNum, btnEl) {
+      document.querySelectorAll('.week-panel').forEach(p => p.style.display = 'none');
+      document.getElementById('week-content-' + weekNum).style.display = 'block';
+      document.querySelectorAll('#week-pills .pill-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    function showArtifact(panelId, btnEl) {
+      document.querySelectorAll('.artifact-panel').forEach(p => p.style.display = 'none');
+      document.getElementById(panelId).style.display = 'block';
+      btnEl.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
+    }
+
+    /* =========================================================
+       SECCIÓN 1: PARTE I - EVIDENCIA OFICIAL (VALIDACIÓN CON ENTER)
+       ========================================================= */
+    function renderOfficialQuestions() {
+      const container = document.getElementById('official-questions-container');
+      container.innerHTML = OFFICIAL_10.map((item, idx) => `
+        <div class="q-row">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+            <span class="badge-tag">Enunciado Oficial #${item.num}</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:0.8rem; color:var(--text-secondary);">${item.ref}</span>
+              <button class="btn-sm" onclick="revealSingleOfficial(${idx})">👁️ Ver respuesta</button>
+            </div>
+          </div>
+          <div class="q-statement">
+            ${item.num}. ${item.textBefore}
+            <input type="text" id="off-inp-${idx}" class="input-text" style="display:inline-block; width:220px; margin:0 6px; padding:6px 11px; font-weight:700;" placeholder="Escribe y pulsa Enter..." onkeydown="if(event.key==='Enter') validateSingleOfficial(${idx})" />
+            ${item.textAfter}
+          </div>
+          <div id="off-fb-${idx}" style="font-size:0.86rem; display:none; margin-top:6px; font-weight:700;"></div>
+        </div>
+      `).join('');
+    }
+
+    function validateSingleOfficial(idx) {
+      const item = OFFICIAL_10[idx];
+      const inp = document.getElementById(`off-inp-${idx}`);
+      const fb = document.getElementById(`off-fb-${idx}`);
+      const userVal = normalizeStr(inp.value);
+      const validNorms = item.answers.map(a => normalizeStr(a));
+      fb.style.display = 'block';
+
+      if (userVal && validNorms.includes(userVal)) {
+        inp.classList.remove('wrong');
+        inp.classList.add('correct');
+        fb.style.color = 'var(--success)';
+        fb.textContent = '✔ ¡Correcto! Respuesta validada.';
+        return true;
+      } else {
+        inp.classList.remove('correct');
+        inp.classList.add('wrong');
+        fb.style.color = 'var(--danger)';
+        fb.textContent = '✘ Incorrecto. Intenta de nuevo o pulsa "Ver respuesta".';
+        return false;
+      }
+    }
+
+    function revealSingleOfficial(idx) {
+      const item = OFFICIAL_10[idx];
+      const fb = document.getElementById(`off-fb-${idx}`);
+      fb.style.display = 'block';
+      fb.style.color = 'var(--accent-gold)';
+      fb.innerHTML = `🔑 Respuesta oficial: <strong>${item.officialDisplay}</strong>`;
+    }
+
+    function checkAllOfficialQuestions() {
+      let score = 0;
+      OFFICIAL_10.forEach((_, idx) => {
+        if (validateSingleOfficial(idx)) score++;
+      });
+      const banner = document.getElementById('official-score-banner');
+      banner.style.display = 'block';
+      banner.innerHTML = `<strong>Puntaje Parte I: ${score} / 10 puntos.</strong> ${score === 10 ? '¡Excelente! Tienes asegurados los 10 puntos conceptuales.' : 'Revisa las casillas marcadas en rojo o usa el botón "Ver respuesta" en las que tengas duda.'}`;
+    }
+
+    function resetOfficialQuestions() {
+      document.getElementById('official-score-banner').style.display = 'none';
+      renderOfficialQuestions();
+    }
+
+    /* =========================================================
+       SECCIÓN 4: BANCO DE 100 PREGUNTAS (CON ENTER Y OCULTO POR DEFECTO)
+       ========================================================= */
+    function renderBank() {
+      const query = normalizeStr(document.getElementById('bank-search').value);
+      const weekFilter = document.getElementById('bank-week-filter').value;
+      const container = document.getElementById('bank-list-container');
+
+      const filtered = BANK_100.filter(item => {
+        const matchesWeek = weekFilter === 'ALL' || item.week === weekFilter;
+        const matchesQuery = !query || normalizeStr(item.q).includes(query);
+        return matchesWeek && matchesQuery;
+      });
+
+      document.getElementById('bank-counter').textContent = `Mostrando ${filtered.length} de 100 preguntas. Escribe la palabra y presiona Enter para comprobar.`;
+
+      container.innerHTML = filtered.map(item => {
+        const parts = item.q.split('________');
+        return `
+          <div class="q-row">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+              <span class="badge-tag">Pregunta #${item.id} • ${item.week}</span>
+              <div>
+                <button class="btn-sm" onclick="revealBankAnswer(${item.id})">👁️ Ver respuesta</button>
+              </div>
+            </div>
+            <div class="q-statement">
+              ${parts[0]}
+              <input type="text" id="bank-inp-${item.id}" class="input-text" style="display:inline-block; width:195px; padding:6px 10px; margin:0 6px; font-weight:700;" placeholder="Pulsa Enter..." onkeydown="if(event.key==='Enter') validateBankItem(${item.id})" />
+              ${parts[1] || ''}
+            </div>
+            <div id="bank-fb-${item.id}" style="display:none; font-size:0.86rem; font-weight:700; margin-top:6px;"></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function validateBankItem(id) {
+      const item = BANK_100.find(x => x.id === id);
+      const inp = document.getElementById(`bank-inp-${id}`);
+      const fb = document.getElementById(`bank-fb-${id}`);
+      const val = normalizeStr(inp.value);
+      const validList = (item.alts || [item.a]).map(a => normalizeStr(a));
+      fb.style.display = 'block';
+
+      if (val && validList.includes(val)) {
+        inp.classList.remove('wrong');
+        inp.classList.add('correct');
+        fb.style.color = 'var(--success)';
+        fb.textContent = '✔ ¡Correcto!';
+      } else {
+        inp.classList.remove('correct');
+        inp.classList.add('wrong');
+        fb.style.color = 'var(--danger)';
+        fb.textContent = '✘ Incorrecto. Intenta nuevamente o presiona "Ver respuesta".';
+      }
+    }
+
+    function revealBankAnswer(id) {
+      const item = BANK_100.find(x => x.id === id);
+      const fb = document.getElementById(`bank-fb-${id}`);
+      fb.style.display = 'block';
+      fb.style.color = 'var(--accent-gold)';
+      fb.innerHTML = `🔑 Respuesta exacta: <strong>${item.a}</strong>`;
+    }
+
+    function resetBankInputs() {
+      renderBank();
+    }
+
+    /* =========================================================
+       SECCIÓN 5: TRIVIA GAMIFICADA
+       ========================================================= */
+    let triviaList = [];
+    let triviaIndex = 0;
+    let triviaScore = 0;
+    let triviaStreak = 0;
+
+    function restartTrivia() {
+      triviaList = [...TRIVIA_POOL].sort(() => Math.random() - 0.5);
+      triviaIndex = 0;
+      triviaScore = 0;
+      triviaStreak = 0;
+      updateTriviaHUD();
+      loadTriviaQuestion();
+    }
+
+    function updateTriviaHUD() {
+      document.getElementById('trivia-score-chip').textContent = `🏆 Puntaje: ${triviaScore}`;
+      document.getElementById('trivia-streak-chip').textContent = `🔥 Racha: ${triviaStreak}`;
+      document.getElementById('trivia-progress-chip').textContent = `📋 Pregunta: ${triviaIndex + 1} / ${triviaList.length}`;
+    }
+
+    function loadTriviaQuestion() {
+      const current = triviaList[triviaIndex];
+      document.getElementById('trivia-category-lbl').textContent = current.cat;
+      document.getElementById('trivia-question-box').textContent = current.q;
+      document.getElementById('trivia-feedback-box').style.display = 'none';
+      document.getElementById('trivia-next-btn').style.display = 'none';
+
+      const optsContainer = document.getElementById('trivia-options-box');
+      optsContainer.innerHTML = current.opts.map((opt, i) => `
+        <button class="trivia-opt" onclick="answerTrivia(${i}, this)">${String.fromCharCode(65 + i)}. ${opt}</button>
+      `).join('');
+    }
+
+    function answerTrivia(selectedIdx, btnEl) {
+      const current = triviaList[triviaIndex];
+      const allBtns = document.querySelectorAll('#trivia-options-box .trivia-opt');
+      allBtns.forEach(b => b.disabled = true);
+
+      const fb = document.getElementById('trivia-feedback-box');
+      fb.style.display = 'block';
+
+      if (selectedIdx === current.ans) {
+        btnEl.classList.add('correct');
+        triviaScore += 10;
+        triviaStreak++;
+        fb.innerHTML = `<strong style="color:var(--success);">✔ ¡Correcto!</strong> ${current.exp}`;
+      } else {
+        btnEl.classList.add('wrong');
+        allBtns[current.ans].classList.add('correct');
+        triviaStreak = 0;
+        fb.innerHTML = `<strong style="color:var(--danger);">✘ Incorrecto.</strong> ${current.exp}`;
+      }
+
+      updateTriviaHUD();
+      document.getElementById('trivia-next-btn').style.display = 'inline-block';
+    }
+
+    function nextTriviaQuestion() {
+      triviaIndex = (triviaIndex + 1) % triviaList.length;
+      updateTriviaHUD();
+      loadTriviaQuestion();
+    }
+
+    /* =========================================================
+       SECCIÓN 6: SIMULACRO INTERACTIVO + CANVAS + EVALUADOR POR RÚBRICA
+       ========================================================= */
+    let currentSimCaseIdx = 0;
+    let canvasDrawCount = 0;
+
+    function loadSimCase(idx, btnEl) {
+      currentSimCaseIdx = idx;
+      if (btnEl) {
+        btnEl.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+        btnEl.classList.add('active');
+      }
+      const c = SIM_CASES[idx];
+      document.getElementById('sim-case-description').innerHTML = `<h4 style="color:var(--accent-secondary); margin-bottom:6px;">${c.title}</h4><p style="font-size:0.93rem;">${c.desc}</p>`;
+      document.getElementById('sim-evaluation-report').style.display = 'none';
+    }
+
+    function renderSimPart1() {
+      const container = document.getElementById('sim-part1-container');
+      container.innerHTML = OFFICIAL_10.map((item, idx) => `
+        <div style="margin-bottom:10px; font-size:0.93rem;">
+          <strong>${item.num}.</strong> ${item.textBefore}
+          <input type="text" id="sim-p1-inp-${idx}" class="input-text" style="display:inline-block; width:190px; padding:5px 9px; margin:0 5px; font-weight:700;" placeholder="1 palabra..." onkeydown="if(event.key==='Enter') validateSimP1Single(${idx})" />
+          ${item.textAfter}
+          <span id="sim-p1-fb-${idx}" style="font-size:0.82rem; font-weight:700; margin-left:6px;"></span>
+        </div>
+      `).join('');
+    }
+
+    function validateSimP1Single(idx) {
+      const item = OFFICIAL_10[idx];
+      const inp = document.getElementById(`sim-p1-inp-${idx}`);
+      const fb = document.getElementById(`sim-p1-fb-${idx}`);
+      const val = normalizeStr(inp.value);
+      const validNorms = item.answers.map(a => normalizeStr(a));
+      if (val && validNorms.includes(val)) {
+        inp.classList.remove('wrong');
+        inp.classList.add('correct');
+        fb.style.color = 'var(--success)';
+        fb.textContent = '✔ Correcto';
+        return true;
+      } else {
+        inp.classList.remove('correct');
+        inp.classList.add('wrong');
+        fb.style.color = 'var(--danger)';
+        fb.textContent = '✘ Incorrecto';
+        return false;
+      }
+    }
+
+    /* PIZARRA INTERACTIVA DE WIREFRAME (CANVAS) */
+    let wfCanvas, wfCtx;
+    let isDrawing = false;
+    let lastX = 0, lastY = 0;
+
+    function initWireframeCanvas() {
+      wfCanvas = document.getElementById('wf-canvas');
+      wfCtx = wfCanvas.getContext('2d');
+      stampPhoneFrames();
+
+      const getPos = (e) => {
+        const rect = wfCanvas.getBoundingClientRect();
+        const scaleX = wfCanvas.width / rect.width;
+        const scaleY = wfCanvas.height / rect.height;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY
+        };
+      };
+
+      const startDraw = (e) => {
+        e.preventDefault();
+        isDrawing = true;
+        const pos = getPos(e);
+        lastX = pos.x;
+        lastY = pos.y;
+      };
+
+      const moveDraw = (e) => {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        wfCtx.strokeStyle = '#064e3b';
+        wfCtx.lineWidth = 2.2;
+        wfCtx.lineCap = 'round';
+        wfCtx.beginPath();
+        wfCtx.moveTo(lastX, lastY);
+        wfCtx.lineTo(pos.x, pos.y);
+        wfCtx.stroke();
+        lastX = pos.x;
+        lastY = pos.y;
+        canvasDrawCount++;
+      };
+
+      const endDraw = () => { isDrawing = false; };
+
+      wfCanvas.addEventListener('mousedown', startDraw);
+      wfCanvas.addEventListener('mousemove', moveDraw);
+      window.addEventListener('mouseup', endDraw);
+
+      wfCanvas.addEventListener('touchstart', startDraw, { passive: false });
+      wfCanvas.addEventListener('touchmove', moveDraw, { passive: false });
+      window.addEventListener('touchend', endDraw);
+    }
+
+    function setCanvasTool() {
+      wfCanvas.style.cursor = 'crosshair';
+    }
+
+    function clearWireframeCanvas() {
+      wfCtx.fillStyle = '#ffffff';
+      wfCtx.fillRect(0, 0, wfCanvas.width, wfCanvas.height);
+      canvasDrawCount = 0;
+    }
+
+    function stampPhoneFrames() {
+      wfCtx.fillStyle = '#ffffff';
+      wfCtx.fillRect(0, 0, wfCanvas.width, wfCanvas.height);
+      wfCtx.strokeStyle = '#0f172a';
+      wfCtx.lineWidth = 2;
+
+      // Pantalla A
+      wfCtx.strokeRect(30, 25, 230, 340);
+      wfCtx.beginPath();
+      wfCtx.moveTo(30, 62);
+      wfCtx.lineTo(260, 62);
+      wfCtx.stroke();
+      wfCtx.fillStyle = '#0f172a';
+      wfCtx.font = 'bold 13px sans-serif';
+      wfCtx.fillText('← Atrás     Pantalla A', 44, 48);
+
+      // Flecha de flujo
+      wfCtx.beginPath();
+      wfCtx.moveTo(272, 195);
+      wfCtx.lineTo(338, 195);
+      wfCtx.lineTo(328, 187);
+      wfCtx.moveTo(338, 195);
+      wfCtx.lineTo(328, 203);
+      wfCtx.stroke();
+
+      // Pantalla B
+      wfCtx.strokeRect(355, 25, 230, 340);
+      wfCtx.beginPath();
+      wfCtx.moveTo(355, 62);
+      wfCtx.lineTo(585, 62);
+      wfCtx.stroke();
+      wfCtx.fillText('← Atrás     Pantalla B', 369, 48);
+      canvasDrawCount += 5;
+    }
+
+    let stampOffset = 0;
+    function stampElement(type) {
+      stampOffset = (stampOffset + 28) % 140;
+      const x = 50;
+      const y = 85 + stampOffset;
+      wfCtx.strokeStyle = '#047857';
+      wfCtx.lineWidth = 2;
+
+      if (type === 'box') {
+        wfCtx.strokeRect(x, y, 190, 42);
+        wfCtx.fillStyle = '#334155';
+        wfCtx.font = '12px sans-serif';
+        wfCtx.fillText('[ Campo / Contenedor ]', x + 12, y + 25);
+      } else if (type === 'btn') {
+        wfCtx.fillStyle = '#065f46';
+        wfCtx.fillRect(x, 305, 190, 40);
+        wfCtx.fillStyle = '#ffffff';
+        wfCtx.font = 'bold 13px sans-serif';
+        wfCtx.fillText('BOTÓN PRINCIPAL', x + 32, 330);
+      } else if (type === 'arrow') {
+        wfCtx.beginPath();
+        wfCtx.moveTo(265, 160);
+        wfCtx.lineTo(350, 160);
+        wfCtx.stroke();
+      }
+      canvasDrawCount += 3;
+    }
+
+    let pinPosIdx = 0;
+    function stampPin(num) {
+      const coords = [
+        { x: 245, y: 45 },
+        { x: 245, y: 140 },
+        { x: 245, y: 325 },
+        { x: 565, y: 120 },
+        { x: 565, y: 240 }
+      ];
+      const pos = coords[(num - 1) % coords.length];
+      wfCtx.fillStyle = '#f59e0b';
+      wfCtx.beginPath();
+      wfCtx.arc(pos.x, pos.y, 12, 0, Math.PI * 2);
+      wfCtx.fill();
+      wfCtx.fillStyle = '#000000';
+      wfCtx.font = 'bold 12px sans-serif';
+      wfCtx.fillText(String(num), pos.x - 4, pos.y + 4);
+      canvasDrawCount += 2;
+    }
+
+    let textYOffset = 95;
+    function stampCustomText() {
+      const txt = document.getElementById('canvas-label-inp').value.trim();
+      if (!txt) return;
+      wfCtx.fillStyle = '#064e3b';
+      wfCtx.font = 'bold 12px sans-serif';
+      wfCtx.fillText(txt, 48, textYOffset);
+      textYOffset = textYOffset > 280 ? 95 : textYOffset + 32;
+      document.getElementById('canvas-label-inp').value = '';
+      canvasDrawCount += 3;
+    }
+
+    function fillIdealSimulacro() {
+      const c = SIM_CASES[currentSimCaseIdx].ideal;
+      OFFICIAL_10.forEach((item, idx) => {
+        const inp = document.getElementById(`sim-p1-inp-${idx}`);
+        inp.value = item.answers[0];
+        validateSimP1Single(idx);
+      });
+      document.getElementById('sim-asis-phases').value = c.phases;
+      document.getElementById('sim-asis-doing').value = c.doing;
+      document.getElementById('sim-asis-critical').value = c.critical;
+      document.getElementById('sim-need-statement').value = c.need;
+      document.getElementById('sim-hu-text').value = c.hu;
+      document.getElementById('sim-ca-text').value = c.ca;
+      document.getElementById('sim-gherkin-1').value = c.g1;
+      document.getElementById('sim-gherkin-2').value = c.g2;
+      document.getElementById('sim-prin-1').value = c.p1;
+      document.getElementById('sim-prin-2').value = c.p2;
+      document.getElementById('sim-prin-3').value = c.p3;
+      document.getElementById('sim-prin-4').value = c.p4;
+      document.getElementById('sim-prin-5').value = c.p5;
+
+      stampPhoneFrames();
+      stampElement('box');
+      stampElement('btn');
+      [1, 2, 3, 4, 5].forEach(n => stampPin(n));
+      evaluateFullSimulacro();
+    }
+
+    /* MOTOR DE CALIFICACIÓN AUTOMÁTICA SEGÚN LA RÚBRICA OFICIAL EA1 (20 PUNTOS) */
+    function evaluateFullSimulacro() {
+      const errors = [];
+      const strengths = [];
+
+      // 1. Parte I: Comprensión Conceptual (10 puntos)
+      let p1Score = 0;
+      OFFICIAL_10.forEach((_, idx) => {
+        if (validateSimP1Single(idx)) p1Score += 1;
+      });
+      if (p1Score < 10) {
+        errors.push(`<strong>Parte I (Banco de Preguntas):</strong> Obtuviste ${p1Score}/10 pts. Revisa las palabras marcadas en rojo arriba; recuerda que debe ser el término exacto de las láminas.`);
+      } else {
+        strengths.push(`<strong>Parte I impecable (10/10 pts):</strong> Dominio total de la terminología conceptual del curso.`);
+      }
+
+      // 2. Dimensión 1 Parte II: Metodologías User Research y Needfinding (2 puntos)
+      const phases = document.getElementById('sim-asis-phases').value.trim();
+      const doing = document.getElementById('sim-asis-doing').value.trim();
+      const critical = document.getElementById('sim-asis-critical').value.trim();
+      const needStmt = document.getElementById('sim-need-statement').value.trim();
+
+      let d1Score = 0;
+      if (phases.length > 12 && doing.length > 20) d1Score += 1.0;
+      else errors.push(`<strong>Escenario As-Is incompleto:</strong> Debes definir al menos 3 a 4 fases del proceso actual y describir qué hace y piensa el usuario hoy.`);
+
+      const citesEvidence = /e1|e2|e3|e4|"/i.test(doing + " " + critical);
+      if (citesEvidence) {
+        d1Score += 0.5;
+        strengths.push(`<strong>Trazabilidad aplicada:</strong> Citaste evidencias (E1, E2...) o pensamientos entre comillas en el As-Is.`);
+      } else {
+        errors.push(`<strong>Falta de trazabilidad explícita en As-Is:</strong> Cita entre comillas lo que piensa el usuario y referencia las evidencias del caso como (E1), (E2).`);
+      }
+
+      const prematureSolWords = /\b(app|aplicacion|aplicación|boton|botón|notificacion push|sistema mostrara)\b/i;
+      if (!prematureSolWords.test(doing) && doing.length > 15) {
+        d1Score += 0.5;
+      } else if (prematureSolWords.test(doing)) {
+        errors.push(`<strong>Error de Anticipación en el As-Is:</strong> Mencionaste elementos de solución futura (app/botón) dentro del mapa As-Is. Recuerda que el As-Is solo describe lo que ocurre HOY.`);
+      }
+
+      // 3. Dimensión 2 Parte II: Comprensión del problema e identificación de necesidades (2 puntos)
+      let d2Score = 0;
+      if (/critico|crítico|bajo|vacio|vacío|!/i.test(critical)) {
+        d2Score += 1.0;
+      } else {
+        errors.push(`<strong>Hallazgos del As-Is incompletos:</strong> Especifica claramente cuál es el Punto Crítico (!), el Punto Bajo (-) y el Vacío de Información (?).`);
+      }
+
+      const hasNeedStructure = /necesita/i.test(needStmt) && /para/i.test(needStmt);
+      const hasForbiddenTechInNeed = /\b(app|aplicacion|aplicación|boton|botón|base de datos|pantalla)\b/i.test(needStmt);
+      if (hasNeedStructure && !hasForbiddenTechInNeed) {
+        d2Score += 1.0;
+        strengths.push(`<strong>User Need Statement bien formulado:</strong> Usa la estructura '[Usuario] necesita [resultado] para [objetivo]' sin dictar soluciones tecnológicas.`);
+      } else {
+        if (!hasNeedStructure) errors.push(`<strong>Fórmula de User Need Statement:</strong> Debe seguir estrictamente '[Usuario] necesita [necesidad] para [objetivo significativo]'.`);
+        if (hasForbiddenTechInNeed) errors.push(`<strong>Error en User Need Statement:</strong> Escribiste una solución tecnológica (app/botón/pantalla) en la necesidad. La necesidad debe ser un resultado, no una interfaz.`);
+      }
+
+      // 4. Dimensión 3 Parte II: Diseño de la solución (HU, Gherkin y Wireframe) (2 puntos)
+      const hu = document.getElementById('sim-hu-text').value.trim();
+      const ca = document.getElementById('sim-ca-text').value.trim();
+      const g1 = document.getElementById('sim-gherkin-1').value.trim();
+      const g2 = document.getElementById('sim-gherkin-2').value.trim();
+
+      let d3Score = 0;
+      const validHU = /como/i.test(hu) && /quiero/i.test(hu) && /para/i.test(hu);
+      if (validHU) {
+        d3Score += 0.75;
+      } else {
+        errors.push(`<strong>Formato de Historia de Usuario (HU):</strong> Debe contener los 3 bloques obligatorios: 'Como [actor del caso], quiero [acción], para [beneficio]'.`);
+      }
+
+      const validGherkin1 = /(dado|given)/i.test(g1) && /(cuando|when)/i.test(g1) && /(entonces|then)/i.test(g1);
+      const validGherkin2 = /(dado|given)/i.test(g2) && /(cuando|when)/i.test(g2) && /(entonces|then)/i.test(g2);
+      if (validGherkin1 && validGherkin2 && ca.length > 35) {
+        d3Score += 0.75;
+        strengths.push(`<strong>Criterios y Escenarios Gherkin completos:</strong> Ambos escenarios incluyen la estructura Dado / Cuando / Entonces.`);
+      } else {
+        errors.push(`<strong>Gherkin o Criterios incompletos:</strong> Asegúrate de incluir 3 criterios de aceptación y usar las palabras clave 'Dado (Given)', 'Cuando (When)' y 'Entonces (Then)' en los 2 escenarios.`);
+      }
+
+      if (canvasDrawCount >= 4) {
+        d3Score += 0.5;
+      } else {
+        errors.push(`<strong>Pizarra de Wireframe:</strong> Dibuja o inserta los elementos de tus 2 pantallas y numera los principios en el lienzo.`);
+      }
+
+      // 5. Dimensión 4 Parte II: Justificación del diseño mediante principios HCI/UX (2 puntos)
+      const pInputs = [
+        document.getElementById('sim-prin-1').value.trim(),
+        document.getElementById('sim-prin-2').value.trim(),
+        document.getElementById('sim-prin-3').value.trim(),
+        document.getElementById('sim-prin-4').value.trim(),
+        document.getElementById('sim-prin-5').value.trim()
+      ].filter(x => x.length > 15);
+
+      let d4Score = 0;
+      if (pInputs.length >= 4) {
+        d4Score = 2.0;
+        strengths.push(`<strong>Sustento de Principios completo (2.0/2.0 pts):</strong> Justificaste ${pInputs.length} principios conectándolos con elementos de la interfaz.`);
+      } else if (pInputs.length >= 2) {
+        d4Score = 1.0;
+        errors.push(`<strong>Faltan Principios anotados:</strong> Solo sustentaste ${pInputs.length} principios. La guía exige mínimo 4 (ideal 5) principios conectados con elementos visibles del wireframe.`);
+      } else {
+        errors.push(`<strong>Sin justificación de Principios:</strong> Completa al menos 4 principios (ej. Sé consistente, Ofrece opciones, Prioriza el contenido, Experiencias comparables, Visibilidad del estado).`);
+      }
+
+      // 6. Dimensión 5 Parte II: Comunicación técnica y Cadena de Coherencia (2 puntos)
+      let d5Score = 0;
+      if (d1Score >= 1.5 && d2Score >= 1.5 && d3Score >= 1.5 && d4Score >= 1.5) {
+        d5Score = 2.0;
+        strengths.push(`<strong>Cadena de Coherencia Sobresaliente:</strong> El As-Is, la HU, los escenarios Gherkin y los principios mantienen alineación técnica.`);
+      } else if (d1Score + d2Score + d3Score + d4Score >= 4.0) {
+        d5Score = 1.5;
+      } else if (d1Score + d2Score + d3Score + d4Score >= 2.0) {
+        d5Score = 1.0;
+      }
+
+      const totalScore = p1Score + d1Score + d2Score + d3Score + d4Score + d5Score;
+
+      // Mostrar reporte
+      const reportCard = document.getElementById('sim-evaluation-report');
+      reportCard.style.display = 'block';
+      document.getElementById('sim-final-grade-badge').textContent = `Nota Final: ${totalScore.toFixed(2)} / 20.00 pts`;
+
+      document.getElementById('sim-rubric-breakdown').innerHTML = `
+        <table class="data-table">
+          <thead>
+            <tr><th>Dimensión Oficial de la Rúbrica EA1 (1ASI0784)</th><th>Puntaje Obtenido</th><th>Puntaje Máximo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Parte I:</strong> Integración y Dominio Conceptual (10 preguntas)</td><td><strong>${p1Score.toFixed(2)}</strong></td><td>10.00 pts</td></tr>
+            <tr><td><strong>Parte II - Dimensión 1:</strong> Empleo de metodologías User Research y Needfinding</td><td><strong>${d1Score.toFixed(2)}</strong></td><td>2.00 pts</td></tr>
+            <tr><td><strong>Parte II - Dimensión 2:</strong> Comprensión del problema e identificación de necesidades</td><td><strong>${d2Score.toFixed(2)}</strong></td><td>2.00 pts</td></tr>
+            <tr><td><strong>Parte II - Dimensión 3:</strong> Diseño de la solución (HU, Gherkin y Wireframe)</td><td><strong>${d3Score.toFixed(2)}</strong></td><td>2.00 pts</td></tr>
+            <tr><td><strong>Parte II - Dimensión 4:</strong> Justificación mediante principios de UX, HCI e Inclusión</td><td><strong>${d4Score.toFixed(2)}</strong></td><td>2.00 pts</td></tr>
+            <tr><td><strong>Parte II - Dimensión 5:</strong> Comunicación técnica clara y Cadena de Coherencia</td><td><strong>${d5Score.toFixed(2)}</strong></td><td>2.00 pts</td></tr>
+          </tbody>
+        </table>
+      `;
+
+      let fbHTML = '';
+      if (errors.length > 0) {
+        fbHTML += `<div class="formula-box" style="border-left-color:var(--danger);"><h4 style="color:var(--danger); margin-bottom:8px;">⚠️ Diagnóstico de Errores y Puntos a Corregir:</h4><ul class="clean-list">${errors.map(e => `<li>${e}</li>`).join('')}</ul></div>`;
+      }
+      if (strengths.length > 0) {
+        fbHTML += `<div class="formula-box" style="border-left-color:var(--success);"><h4 style="color:var(--success); margin-bottom:8px;">✔ Aciertos Detectados Según la Rúbrica:</h4><ul class="clean-list">${strengths.map(s => `<li>${s}</li>`).join('')}</ul></div>`;
+      }
+      document.getElementById('sim-errors-feedback').innerHTML = fbHTML;
+      reportCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* =========================================================
+       CRONÓMETRO GLOBAL
+       ========================================================= */
+    let timerSeconds = 100 * 60;
+    let timerDefaultSeconds = 100 * 60;
+    let timerInterval = null;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function updateTimerUI() {
+      document.getElementById('timer-display').textContent = formatTime(timerSeconds);
+    }
+
+    function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          updateTimerUI();
+        } else {
+          pauseTimer();
+          alert("⏰ ¡Tiempo cumplido! Califica tu simulacro para revisar tu puntaje.");
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      timerSeconds = timerDefaultSeconds;
+      updateTimerUI();
+    }
+
+    function setTimerPreset(minutes, label) {
+      pauseTimer();
+      timerDefaultSeconds = minutes * 60;
+      timerSeconds = timerDefaultSeconds;
+      document.getElementById('timer-mode-lbl').textContent = label;
+      updateTimerUI();
+    }
+
+    /* INICIALIZACIÓN */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderOfficialQuestions();
+      renderBank();
+      restartTrivia();
+      loadSimCase(0);
+      renderSimPart1();
+      initWireframeCanvas();
+      updateTimerUI();
+    });
+  </script>
+</body>
+</html>
